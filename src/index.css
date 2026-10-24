@@ -1,0 +1,42 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    scroll-padding-top: 4rem;
+    -webkit-text-size-adjust: 100%;
+  }
+  body {
+    @apply bg-white font-sans text-slate-900 antialiased;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+  }
+}
+
+@layer components {
+  /* Fondo oscuro de marca con resplandores radiales */
+  .bg-dark-glow {
+    background-color: #0a0f1d;
+    background-image:
+      radial-gradient(ellipse 60% 55% at 0% 0%, rgba(30, 58, 138, 0.35), transparent 70%),
+      radial-gradient(ellipse 55% 50% at 100% 0%, rgba(49, 46, 129, 0.25), transparent 70%),
+      radial-gradient(ellipse 50% 45% at 100% 60%, rgba(30, 58, 138, 0.18), transparent 70%);
+  }
+  .bg-dark-glow-soft {
+    background-color: #0a0f1d;
+    background-image:
+      radial-gradient(ellipse 50% 50% at 10% 0%, rgba(30, 58, 138, 0.28), transparent 70%),
+      radial-gradient(ellipse 45% 45% at 95% 100%, rgba(49, 46, 129, 0.22), transparent 70%);
+  }
+  .glass-card {
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    -webkit-backdrop-filter: blur(8px);
+    backdrop-filter: blur(8px);
+  }
+  .scrollbar-none { scrollbar-width: none; }
+  .scrollbar-none::-webkit-scrollbar { display: none; }
+}
