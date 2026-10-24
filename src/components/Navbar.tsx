@@ -16,7 +16,7 @@ export function Navbar({ onBuy }: Props) {
   }, [open])
 
   return (
-    <header className="sticky top-0 z-50 bg-[#0A0F1D]/90 backdrop-blur-md border-b border-white/10">
+    <header className="sticky top-0 z-50 bg-[#1A202C]/90 backdrop-blur-md border-b border-white/10">
       <div className="max-w-6xl mx-auto px-4 h-16 flex items-center justify-between lg:justify-center gap-3 lg:gap-6">
         <nav aria-label="Principal" className="hidden lg:flex items-center gap-6">
           {NAV_LINKS.map((l) => (
@@ -30,7 +30,7 @@ export function Navbar({ onBuy }: Props) {
           <button
             type="button"
             onClick={onBuy}
-            className="bg-[#2563EB] hover:bg-[#1D4ED8] text-white px-3 sm:px-4 py-2 rounded-lg text-sm font-semibold whitespace-nowrap transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-400 focus-visible:ring-offset-2 focus-visible:ring-offset-[#0A0F1D]"
+            className="bg-[#1A73E8] hover:bg-[#1560C4] text-white px-3 sm:px-4 py-2 rounded-lg text-sm font-semibold whitespace-nowrap transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-400 focus-visible:ring-offset-2 focus-visible:ring-offset-[#1A202C]"
           >
             Comprar ahora
           </button>
@@ -52,7 +52,7 @@ export function Navbar({ onBuy }: Props) {
       </div>
 
       {open && (
-        <nav id="mobile-nav" aria-label="Principal móvil" className="lg:hidden border-t border-white/10 bg-[#0A0F1D] animate-fade-in">
+        <nav id="mobile-nav" aria-label="Principal móvil" className="lg:hidden border-t border-white/10 bg-[#1A202C] animate-fade-in">
           <ul className="max-w-6xl mx-auto px-4 py-3 grid grid-cols-2 gap-1">
             {NAV_LINKS.map((l) => (
               <li key={l.href}>

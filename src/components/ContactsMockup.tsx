@@ -32,7 +32,7 @@ export function ContactsMockup() {
       className="h-[420px] flex bg-white text-left select-none overflow-hidden"
     >
       {/* Sidebar */}
-      <aside className="hidden sm:flex w-44 shrink-0 flex-col bg-[#0F172A] py-4 px-3 gap-1">
+      <aside className="hidden sm:flex w-44 shrink-0 flex-col bg-[#2D3748] py-4 px-3 gap-1">
         <div className="flex items-center gap-2 px-2 mb-4">
           <img src={hubLogo} alt="" width={24} height={24} className="w-6 h-6 rounded-md" />
           <span className="text-[11px] font-semibold text-white truncate">Mi negocio</span>

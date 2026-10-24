@@ -17,7 +17,7 @@ export function Hero({ onBuy }: Props) {
             <br />
             Cierra más ventas.
             <br />
-            Todo en un solo sistema.
+            <span className="text-brand-gradient">Todo en un solo sistema.</span>
           </h1>
 
           <p className="text-slate-300 text-base md:text-lg max-w-2xl mx-auto mb-8 leading-relaxed">
@@ -29,7 +29,7 @@ export function Hero({ onBuy }: Props) {
             <button
               type="button"
               onClick={onBuy}
-              className="bg-[#2563EB] hover:bg-blue-700 text-white font-semibold px-6 py-3.5 rounded-lg shadow-lg shadow-blue-600/25 transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-400 focus-visible:ring-offset-2 focus-visible:ring-offset-[#0A0F1D]"
+              className="bg-[#1A73E8] hover:bg-blue-700 text-white font-semibold px-6 py-3.5 rounded-lg shadow-lg shadow-blue-600/25 transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-400 focus-visible:ring-offset-2 focus-visible:ring-offset-[#1A202C]"
             >
               Comprar ahora - {PRICE_LABEL}
             </button>
@@ -49,7 +49,7 @@ export function Hero({ onBuy }: Props) {
             <div className="bg-[#F1F5F9] px-4 py-2.5 flex items-center gap-2 border-b border-slate-200">
               <span className="w-2.5 h-2.5 rounded-full bg-[#EF4444]" />
               <span className="w-2.5 h-2.5 rounded-full bg-[#F59E0B]" />
-              <span className="w-2.5 h-2.5 rounded-full bg-[#10B981]" />
+              <span className="w-2.5 h-2.5 rounded-full bg-[#37B1AB]" />
               <span className="ml-2 text-xs text-slate-500 font-medium truncate">Marketing Master HUB - Panel de contactos</span>
             </div>
             <ContactsMockup />
@@ -65,7 +65,7 @@ export function Hero({ onBuy }: Props) {
           <li className="text-slate-500 font-medium">Un solo login reemplaza a:</li>
           {REPLACES.map((r) => (
             <li key={r} className="flex items-center gap-1.5">
-              <span className="text-[#10B981]" aria-hidden>•</span>
+              <span className="text-[#37B1AB]" aria-hidden>•</span>
               {r}
             </li>
           ))}

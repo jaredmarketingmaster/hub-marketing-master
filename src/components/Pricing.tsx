@@ -16,7 +16,7 @@ export function Pricing({ onBuy }: Props) {
           subtitleClassName="text-sm md:text-base mb-10"
         />
 
-        <div className="bg-white border-2 border-blue-600 rounded-2xl p-8 md:p-10 shadow-sm grid md:grid-cols-12 gap-8 items-center">
+        <div className="border-brand-gradient rounded-2xl p-8 md:p-10 shadow-sm grid md:grid-cols-12 gap-8 items-center">
           <div className="md:col-span-6">
             <span className="inline-block bg-blue-50 text-blue-600 border border-blue-200 text-xs font-semibold px-3 py-1 rounded-full mb-4">
               Plan único
@@ -25,7 +25,7 @@ export function Pricing({ onBuy }: Props) {
             <p className="text-sm text-slate-600 mb-6">Todas las funciones, para todo tu negocio.</p>
 
             <div className="flex items-end gap-1.5 mb-1">
-              <span className="text-4xl md:text-5xl font-extrabold text-slate-900 tracking-tight">AR$ 100.000</span>
+              <span className="font-display text-4xl md:text-5xl font-bold text-slate-900 tracking-tight">AR$ 100.000</span>
               <span className="text-slate-500 font-medium mb-1.5">/mes</span>
             </div>
             <p className="text-xs text-slate-400 mb-7">Equivale a ~USD 62,5 por mes. Facturación mensual.</p>
@@ -33,12 +33,12 @@ export function Pricing({ onBuy }: Props) {
             <button
               type="button"
               onClick={onBuy}
-              className="w-full bg-[#2563EB] hover:bg-[#1D4ED8] text-white font-semibold px-6 py-3.5 rounded-lg shadow-lg shadow-blue-600/20 transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
+              className="w-full bg-[#1A73E8] hover:bg-[#1560C4] text-white font-semibold px-6 py-3.5 rounded-lg shadow-lg shadow-blue-600/20 transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
             >
               Comprar ahora
             </button>
             <p className="flex items-center justify-center gap-1.5 text-xs text-slate-500 mt-3">
-              <ShieldCheck className="w-3.5 h-3.5 text-[#10B981]" />
+              <ShieldCheck className="w-3.5 h-3.5 text-[#37B1AB]" />
               Pago mensual seguro procesado por Getnet
             </p>
           </div>
@@ -48,7 +48,7 @@ export function Pricing({ onBuy }: Props) {
             <ul className="space-y-2.5">
               {PRICING_INCLUDES.map((item) => (
                 <li key={item} className="flex gap-2.5 text-sm text-slate-700">
-                  <span className="text-[#10B981] font-bold shrink-0" aria-hidden>✓</span>
+                  <span className="text-[#37B1AB] font-bold shrink-0" aria-hidden>✓</span>
                   {item}
                 </li>
               ))}

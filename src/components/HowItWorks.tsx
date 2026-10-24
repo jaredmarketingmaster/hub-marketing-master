@@ -51,7 +51,7 @@ export function HowItWorks() {
                 onClick={() => setActive(i)}
                 className={`pb-3 -mb-px text-sm whitespace-nowrap transition-colors focus:outline-none focus-visible:text-blue-700 ${
                   selected
-                    ? 'text-[#2563EB] font-semibold border-b-2 border-blue-600'
+                    ? 'text-[#1A73E8] font-semibold border-b-2 border-blue-600'
                     : 'text-slate-500 hover:text-slate-800 font-medium border-b-2 border-transparent'
                 }`}
               >
@@ -88,7 +88,7 @@ export function HowItWorks() {
             <ul className="space-y-2.5">
               {stage.includes.map((item) => (
                 <li key={item} className="flex gap-2.5 text-sm text-slate-700">
-                  <span className="text-[#10B981] font-bold shrink-0" aria-hidden>✓</span>
+                  <span className="text-[#37B1AB] font-bold shrink-0" aria-hidden>✓</span>
                   {item}
                 </li>
               ))}

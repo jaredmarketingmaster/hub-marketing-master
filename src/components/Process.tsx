@@ -18,7 +18,7 @@ export function Process({ onBuy }: Props) {
         <ol className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
           {PROCESS_STEPS.map((step, i) => (
             <li key={step.title} className="relative bg-white border border-slate-200 rounded-2xl p-6 shadow-sm">
-              <span className="w-9 h-9 rounded-full bg-[#2563EB] text-white flex items-center justify-center font-bold text-sm mb-5 shadow-md shadow-blue-600/25">
+              <span className="w-9 h-9 rounded-full bg-brand-gradient text-white flex items-center justify-center font-display font-bold text-sm mb-5 shadow-md shadow-blue-600/25">
                 {i + 1}
               </span>
               <h3 className="text-base font-bold text-slate-900 mb-2">{step.title}</h3>
@@ -31,7 +31,7 @@ export function Process({ onBuy }: Props) {
           <button
             type="button"
             onClick={onBuy}
-            className="bg-[#2563EB] hover:bg-[#1D4ED8] text-white font-semibold px-6 py-3 rounded-lg transition-colors"
+            className="bg-[#1A73E8] hover:bg-[#1560C4] text-white font-semibold px-6 py-3 rounded-lg transition-colors"
           >
             Empezar ahora
           </button>

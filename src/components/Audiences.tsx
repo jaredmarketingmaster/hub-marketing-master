@@ -21,7 +21,7 @@ export function Audiences() {
               <ul className="space-y-2">
                 {a.bullets.map((b) => (
                   <li key={b} className="flex items-center gap-2 text-sm text-slate-700">
-                    <span className="text-[#10B981]" aria-hidden>•</span>
+                    <span className="text-[#37B1AB]" aria-hidden>•</span>
                     {b}
                   </li>
                 ))}

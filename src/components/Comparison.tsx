@@ -16,7 +16,7 @@ export function Comparison() {
         <div className="rounded-2xl overflow-hidden border border-slate-200 shadow-sm">
           <table className="w-full text-left">
             <caption className="sr-only">Comparativa de costos entre herramientas separadas y Marketing Master HUB</caption>
-            <thead className="bg-[#0F172A] text-white">
+            <thead className="bg-[#2D3748] text-white">
               <tr className="text-xs font-semibold">
                 <th scope="col" className="py-4 px-4 sm:px-6">Función</th>
                 <th scope="col" className="py-4 px-3 sm:px-6 text-right">Herramientas equivalentes*</th>
@@ -32,20 +32,20 @@ export function Comparison() {
                   </th>
                   <td className="py-3.5 px-3 sm:px-6 text-right text-slate-600 font-medium whitespace-nowrap">{row.price}</td>
                   <td className="py-3.5 px-4 sm:px-6 text-right text-slate-800 font-medium whitespace-nowrap">
-                    <span className="text-[#10B981] font-bold" aria-hidden>✓ </span>Incluido
+                    <span className="text-[#37B1AB] font-bold" aria-hidden>✓ </span>Incluido
                   </td>
                 </tr>
               ))}
             </tbody>
           </table>
 
-          <div className="bg-[#0F172A] text-white py-4 px-4 sm:px-6 flex justify-between items-center gap-4 font-bold">
+          <div className="bg-[#2D3748] text-white py-4 px-4 sm:px-6 flex justify-between items-center gap-4 font-bold">
             <span>Total en herramientas separadas</span>
-            <span className="whitespace-nowrap">~ USD 1.936/mes</span>
+            <span className="whitespace-nowrap font-display">~ USD 1.936/mes</span>
           </div>
-          <div className="bg-[#10B981] text-white py-4 px-4 sm:px-6 flex justify-between items-center gap-4 font-bold text-base sm:text-lg">
+          <div className="bg-brand-gradient text-white py-4 px-4 sm:px-6 flex justify-between items-center gap-4 font-bold text-base sm:text-lg">
             <span>Tu precio con Marketing Master HUB</span>
-            <span className="whitespace-nowrap">USD 62,5/mes</span>
+            <span className="whitespace-nowrap font-display">USD 62,5/mes</span>
           </div>
         </div>
 

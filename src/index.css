@@ -11,25 +11,53 @@
   body {
     @apply bg-white font-sans text-slate-900 antialiased;
   }
+  /* Títulos con la tipografía display de marca (Bahnschrift; Barlow como alternativa web) */
+  h1, h2, h3 {
+    @apply font-display;
+    font-stretch: normal;
+  }
   @media (prefers-reduced-motion: reduce) {
     html { scroll-behavior: auto; }
   }
 }
 
 @layer components {
-  /* Fondo oscuro de marca con resplandores radiales */
+  /* Fondo oscuro de marca: azul secundario con resplandores azul + celeste */
   .bg-dark-glow {
-    background-color: #0a0f1d;
+    background-color: #1a202c;
     background-image:
-      radial-gradient(ellipse 60% 55% at 0% 0%, rgba(30, 58, 138, 0.35), transparent 70%),
-      radial-gradient(ellipse 55% 50% at 100% 0%, rgba(49, 46, 129, 0.25), transparent 70%),
-      radial-gradient(ellipse 50% 45% at 100% 60%, rgba(30, 58, 138, 0.18), transparent 70%);
+      radial-gradient(ellipse 60% 55% at 0% 0%, rgba(26, 115, 232, 0.32), transparent 70%),
+      radial-gradient(ellipse 55% 50% at 100% 0%, rgba(55, 177, 171, 0.18), transparent 70%),
+      radial-gradient(ellipse 50% 45% at 100% 60%, rgba(26, 115, 232, 0.14), transparent 70%);
   }
   .bg-dark-glow-soft {
-    background-color: #0a0f1d;
+    background-color: #1a202c;
     background-image:
-      radial-gradient(ellipse 50% 50% at 10% 0%, rgba(30, 58, 138, 0.28), transparent 70%),
-      radial-gradient(ellipse 45% 45% at 95% 100%, rgba(49, 46, 129, 0.22), transparent 70%);
+      radial-gradient(ellipse 50% 50% at 10% 0%, rgba(26, 115, 232, 0.26), transparent 70%),
+      radial-gradient(ellipse 45% 45% at 95% 100%, rgba(55, 177, 171, 0.16), transparent 70%);
+  }
+  /* Degradado del logo: azul principal → azul secundario → gris principal */
+  .bg-logo-gradient {
+    background-color: #2d3748;
+    background-image:
+      radial-gradient(ellipse 60% 60% at 85% 10%, rgba(55, 177, 171, 0.22), transparent 70%),
+      linear-gradient(180deg, #1a73e8 0%, #1f5fb8 22%, #2d3748 62%, #4a4a4a 100%);
+  }
+  /* Degradado de acento: azul principal → celeste */
+  .bg-brand-gradient {
+    background-image: linear-gradient(120deg, #1a73e8 0%, #37b1ab 100%);
+  }
+  .text-brand-gradient {
+    background-image: linear-gradient(100deg, #4f95ee 0%, #37b1ab 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+  .border-brand-gradient {
+    border: 2px solid transparent;
+    background:
+      linear-gradient(#fff, #fff) padding-box,
+      linear-gradient(120deg, #1a73e8 0%, #37b1ab 100%) border-box;
   }
   .glass-card {
     background: rgba(255, 255, 255, 0.03);

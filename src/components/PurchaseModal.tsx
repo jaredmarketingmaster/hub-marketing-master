@@ -107,7 +107,7 @@ export function PurchaseModal({ open, onClose }: Props) {
 
   return (
     <div className="fixed inset-0 z-[100] flex items-end sm:items-center justify-center p-0 sm:p-4">
-      <div className="absolute inset-0 bg-[#0A0F1D]/75 backdrop-blur-sm animate-fade-in" onClick={onClose} aria-hidden />
+      <div className="absolute inset-0 bg-[#1A202C]/75 backdrop-blur-sm animate-fade-in" onClick={onClose} aria-hidden />
 
       <div
         ref={dialogRef}
@@ -132,7 +132,7 @@ export function PurchaseModal({ open, onClose }: Props) {
           <p className="text-lg font-bold mb-1">Marketing Master HUB</p>
           <p className="text-sm text-slate-400 mb-6">Plan único, todo incluido</p>
           <div className="flex items-end gap-1 mb-1">
-            <span className="text-3xl font-extrabold tracking-tight">AR$ 100.000</span>
+            <span className="font-display text-3xl font-bold tracking-tight">AR$ 100.000</span>
             <span className="text-slate-400 text-sm mb-1">/mes</span>
           </div>
           <p className="text-xs text-slate-500 mb-6">~USD 62,5 por mes</p>
@@ -236,7 +236,7 @@ export function PurchaseModal({ open, onClose }: Props) {
           <button
             type="submit"
             disabled={submitting}
-            className="mt-6 w-full flex items-center justify-center gap-2 bg-[#2563EB] hover:bg-[#1D4ED8] disabled:opacity-60 text-white font-semibold px-6 py-3.5 rounded-lg shadow-lg shadow-blue-600/20 transition-colors"
+            className="mt-6 w-full flex items-center justify-center gap-2 bg-[#1A73E8] hover:bg-[#1560C4] disabled:opacity-60 text-white font-semibold px-6 py-3.5 rounded-lg shadow-lg shadow-blue-600/20 transition-colors"
           >
             {submitting ? 'Redirigiendo al pago…' : 'Continuar al pago seguro'}
             {!submitting && <ArrowRight className="w-4 h-4" />}
