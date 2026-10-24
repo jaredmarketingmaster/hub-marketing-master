@@ -30,3 +30,12 @@ El modal de compra valida los datos y redirige a esa URL agregando `name`, `emai
 ## Deploy
 
 Es un sitio estático: sube el contenido de `dist/` a cualquier hosting (Vercel, Netlify, Hostinger, Cloudflare Pages). Recuerda definir `VITE_CHECKOUT_URL` en el entorno de build.
+
+### GitHub Pages
+
+El repo incluye `.github/workflows/deploy-pages.yml`, que compila y publica el sitio en cada push a `main` o a `claude/awesome-cray-uqhl3x`.
+
+1. Settings → Pages → **Source: GitHub Actions**.
+2. Settings → Environments → `github-pages` → en "Deployment branches and tags", agregar `claude/awesome-cray-uqhl3x` (por defecto solo `main` puede publicar).
+3. (Opcional) Settings → Secrets and variables → Actions → **Variables** → `VITE_CHECKOUT_URL` con el link de Getnet.
+4. Pestaña Actions → "Deploy a GitHub Pages" → Run workflow (o hacer un push).
