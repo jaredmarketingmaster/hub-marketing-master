@@ -188,9 +188,9 @@ export const MODULES = [
   },
 ]
 
-export const AUDIENCES = [
+export const AUDIENCES: { icon: 'agency' | 'freelancer' | 'business'; title: string; text: string; bullets: string[] }[] = [
   {
-    letter: 'A',
+    icon: 'agency',
     title: 'Agencias',
     text: 'Que quieren gestionar clientes en una plataforma propia en lugar de armar cada cuenta con herramientas sueltas.',
     bullets: [
@@ -200,13 +200,13 @@ export const AUDIENCES = [
     ],
   },
   {
-    letter: 'B',
+    icon: 'freelancer',
     title: 'Freelancers y consultores',
     text: 'Que atienden varios clientes a la vez y necesitan ordenarse, sin una colección de apps desconectadas.',
     bullets: ['Agenda y cobro integrados', 'Seguimiento automático', 'Todo desde el celular'],
   },
   {
-    letter: 'C',
+    icon: 'business',
     title: 'Empresas y negocios locales',
     text: 'Que quieren un CRM y un sistema de marketing todo en uno para vender más sin sumar softwares.',
     bullets: ['WhatsApp centralizado', 'Reseñas en automático', 'Campañas a su base de clientes'],
