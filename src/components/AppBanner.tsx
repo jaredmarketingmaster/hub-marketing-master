@@ -1,5 +1,6 @@
 import { Bell, CalendarDays, MessageCircle, Smartphone } from 'lucide-react'
 import { APP_LINKS } from '../data/content'
+import lcLogo from '../assets/leadconnector-logo.webp'
 
 const FEATURES = [
   { icon: MessageCircle, text: 'Responde WhatsApp, Instagram, SMS y email' },
@@ -29,7 +30,20 @@ export function AppBanner() {
     <section aria-labelledby="app-title" className="bg-dark-glow py-20 px-4">
       <div className="max-w-5xl mx-auto glass-card rounded-2xl p-8 md:p-12 grid md:grid-cols-12 gap-10 items-center">
         <div className="md:col-span-7">
-          <p className="text-blue-400 font-semibold text-xs mb-2">App móvil LeadConnector</p>
+          <div className="flex items-center gap-3 mb-5">
+            <img
+              src={lcLogo}
+              alt="Logo de la app LeadConnector"
+              width={56}
+              height={56}
+              className="w-14 h-14 rounded-2xl ring-1 ring-white/15 shadow-lg shadow-black/30"
+            />
+            <div>
+              <p className="text-white font-bold text-sm leading-tight">LeadConnector</p>
+              <p className="text-slate-400 text-xs">App oficial para iOS y Android</p>
+            </div>
+          </div>
+          <p className="text-blue-400 font-semibold text-xs mb-2">App móvil</p>
           <h2 id="app-title" className="text-3xl md:text-4xl font-extrabold text-white leading-tight tracking-tight mb-4">
             Tu negocio en el bolsillo, estés donde estés.
           </h2>

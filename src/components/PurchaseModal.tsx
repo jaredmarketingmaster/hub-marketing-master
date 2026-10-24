@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState, type FormEvent, type ReactNode } from 'react'
+import hubLogo from '../assets/hub-logo.webp'
 import { ArrowRight, Check, Lock, X } from 'lucide-react'
 
 type Props = { open: boolean; onClose: () => void }
@@ -126,6 +127,7 @@ export function PurchaseModal({ open, onClose }: Props) {
 
         {/* Resumen */}
         <aside className="md:col-span-2 bg-dark-glow text-white p-7 md:rounded-l-2xl hidden md:flex flex-col">
+          <img src={hubLogo} alt="Marketing Master HUB" width={48} height={48} className="w-12 h-12 rounded-xl mb-6 shadow-lg shadow-blue-600/30" />
           <p className="text-blue-400 font-semibold text-xs mb-2">Tu plan</p>
           <p className="text-lg font-bold mb-1">Marketing Master HUB</p>
           <p className="text-sm text-slate-400 mb-6">Plan único, todo incluido</p>

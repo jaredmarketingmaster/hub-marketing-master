@@ -1,3 +1,4 @@
+import hubLogo from '../assets/hub-logo.webp'
 import { Bell, Calendar, Filter, LayoutDashboard, MessageSquare, Plus, Search, Settings, Users, Workflow, Zap } from 'lucide-react'
 
 // Vista simulada del panel de contactos. Los datos personales se muestran difuminados,
@@ -33,7 +34,7 @@ export function ContactsMockup() {
       {/* Sidebar */}
       <aside className="hidden sm:flex w-44 shrink-0 flex-col bg-[#0F172A] py-4 px-3 gap-1">
         <div className="flex items-center gap-2 px-2 mb-4">
-          <span className="w-6 h-6 rounded-md bg-gradient-to-b from-blue-400 to-blue-600 flex items-center justify-center text-white font-bold text-[8px]">HUB</span>
+          <img src={hubLogo} alt="" width={24} height={24} className="w-6 h-6 rounded-md" />
           <span className="text-[11px] font-semibold text-white truncate">Mi negocio</span>
         </div>
         {NAV.map(({ icon: Icon, label, active }) => (
