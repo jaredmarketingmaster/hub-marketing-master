@@ -2,7 +2,7 @@
 
 > **Para quien continúe este trabajo (persona o IA):** este archivo es la fuente de verdad del proyecto. Explica qué es, cómo está construido, por qué se tomó cada decisión, qué se hizo en cada etapa y qué queda pendiente. Léelo completo antes de tocar código. Al terminar cada tanda de cambios, **actualiza la sección 14 (Historial) y la 15 (Pendientes)**.
 
-Última actualización: 26/10/2026 · Último cambio documentado: onboarding en 24 horas hábiles y rama única (ver §14, punto 12)
+Última actualización: 26/10/2026 · Último cambio documentado: publicación en `main` (ver §14, punto 13)
 
 ---
 
@@ -44,7 +44,7 @@ Objetivo de la página: que el visitante entienda el valor, compare contra el co
 | Ítem | Valor |
 |---|---|
 | Repositorio | `jaredmarketingmaster/hub-marketing-master` |
-| Rama de trabajo | `claude/awesome-cray-uqhl3x`: es la que publica en GitHub Pages. **No se mergeó a `main`**; `main` solo tiene el commit inicial. `claude/stoic-carson-em6ai0` fue una rama de una sesión, ya integrada y apuntando al mismo commit; no hace falta usarla |
+| Rama principal | **`main`**: tiene todo el proyecto y publica en GitHub Pages. `claude/awesome-cray-uqhl3x` y `claude/stoic-carson-em6ai0` fueron ramas de trabajo, ya integradas en `main`. Los cambios nuevos se hacen en una rama y se integran a `main` |
 | Destino final | La página se importará a **GoHighLevel (AI Studio)**. Allí se conectan los contactos, el CRM/pipeline y demás funciones; por eso el formulario no tiene backend propio. GitHub Pages es solo la vista previa |
 | URL publicada | https://jaredmarketingmaster.github.io/hub-marketing-master/ |
 | Despliegue | GitHub Actions (`.github/workflows/deploy-pages.yml`) en cada push a la rama o a `main` |
@@ -437,6 +437,9 @@ Cronológico. Cada bloque = un pedido del usuario y el commit resultante en `cla
       - Los links de Mercado Pago son suscripciones con débito automático (confirmado por el usuario).
       - El usuario configurará la URL de retorno cuando el dominio esté publicado.
     - Los commits de `claude/stoic-carson-em6ai0` se integraron a `claude/awesome-cray-uqhl3x` (avance directo, sin merge) para publicar.
+13. **Publicación en `main`**
+    - El usuario revisó el sitio publicado y pidió pasar todo a `main` para importarlo a GoHighLevel (AI Studio).
+    - `main` avanzó directo hasta este commit: no hubo merge ni conflictos, porque `main` solo tenía el commit inicial.
 
 ---
 
@@ -454,7 +457,8 @@ Cronológico. Cada bloque = un pedido del usuario y el commit resultante en `cla
 
 ### Configuración
 - [ ] **Cambiar Settings → Pages → Source a "GitHub Actions"** (ver §13.2).
-- [ ] Decidir si se mergea a `main` (hoy todo vive en la rama `claude/awesome-cray-uqhl3x`; no se abrió PR).
+- [x] Integrado a `main` (26/10/2026).
+- [ ] Importar el proyecto a GoHighLevel (AI Studio) y conectar el formulario con contactos y pipeline.
 - [ ] Si se usará el dominio `hub.marketingmaster.top`, configurarlo en Settings → Pages → Custom domain (el build ya soporta dominio propio).
 
 ### Contenido a validar con el equipo comercial
@@ -480,11 +484,11 @@ Cronológico. Cada bloque = un pedido del usuario y el commit resultante en `cla
 ## 16. Guía para continuar el trabajo
 
 ### 16.1 Flujo de trabajo recomendado
-1. `git pull origin claude/awesome-cray-uqhl3x` y `npm install` (es la única rama de trabajo; la que publica).
+1. `git pull origin main` y `npm install`. Para cambios, crear una rama desde `main`.
 2. Cambios de **texto** → `src/data/content.ts`. Cambios de **diseño** → el componente de la sección o `tailwind.config.js` / `src/index.css`.
 3. `npm run build` debe terminar sin errores (TypeScript es estricto: variables sin usar rompen el build).
 4. Verificación visual: `npm run preview` y capturas con Playwright en 1440×900 y 390×844. Chequear `document.documentElement.scrollWidth - innerWidth === 0` (sin scroll horizontal) y que no haya errores de consola.
-5. Commit en español, descriptivo; `git push -u origin claude/awesome-cray-uqhl3x`.
+5. Commit en español, descriptivo; push de la rama e integración a `main`, que es lo que se publica.
 6. Confirmar en GitHub Actions que "Deploy a GitHub Pages" terminó en verde **después** de "pages build and deployment".
 7. Actualizar §14 y §15 de este documento.
 
