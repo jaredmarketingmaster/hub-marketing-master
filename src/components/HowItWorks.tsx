@@ -1,6 +1,15 @@
 import { useRef, useState, type KeyboardEvent } from 'react'
+import { Handshake, Heart, Magnet, MessagesSquare, RefreshCw, type LucideIcon } from 'lucide-react'
 import { STAGES } from '../data/content'
 import { SectionHeader } from './SectionHeader'
+
+const TAB_ICONS: Record<string, LucideIcon> = {
+  capturar: Magnet,
+  nutrir: MessagesSquare,
+  cerrar: Handshake,
+  fidelizar: Heart,
+  reactivar: RefreshCw,
+}
 
 export function HowItWorks() {
   const [active, setActive] = useState(0)
@@ -37,6 +46,7 @@ export function HowItWorks() {
         >
           {STAGES.map((s, i) => {
             const selected = i === active
+            const Icon = TAB_ICONS[s.id]
             return (
               <button
                 key={s.id}
@@ -49,12 +59,17 @@ export function HowItWorks() {
                 aria-controls={`panel-${s.id}`}
                 tabIndex={selected ? 0 : -1}
                 onClick={() => setActive(i)}
-                className={`pb-3 -mb-px text-sm whitespace-nowrap transition-colors focus:outline-none focus-visible:text-blue-700 ${
+                className={`group flex items-center gap-2 pb-3 -mb-px text-sm whitespace-nowrap transition-colors focus:outline-none focus-visible:text-blue-700 ${
                   selected
                     ? 'text-[#1A73E8] font-semibold border-b-2 border-blue-600'
                     : 'text-slate-500 hover:text-slate-800 font-medium border-b-2 border-transparent'
                 }`}
               >
+                <Icon
+                  aria-hidden
+                  className={`w-4 h-4 shrink-0 transition-transform duration-200 ${selected ? 'text-blue-600 scale-110' : 'text-slate-400 group-hover:text-slate-600'}`}
+                  strokeWidth={2}
+                />
                 {s.tab}
               </button>
             )

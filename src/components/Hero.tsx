@@ -9,7 +9,7 @@ export function Hero({ onBuy }: Props) {
       <section id="top" className="bg-dark-glow pt-16 md:pt-24 px-4 text-center overflow-hidden">
         <div className="max-w-6xl mx-auto">
           <span className="bg-blue-500/10 border border-blue-500/30 text-blue-400 text-xs font-medium px-3.5 py-1.5 rounded-full inline-block mb-6">
-            Plataforma todo-en-uno para vender y fidelizar
+            La plataforma más utilizada a nivel mundial para sistemas de marketing y ventas
           </span>
 
           <h1 className="text-4xl md:text-6xl font-extrabold text-white tracking-tight leading-[1.1] max-w-3xl mx-auto mb-6">
@@ -31,7 +31,7 @@ export function Hero({ onBuy }: Props) {
               onClick={onBuy}
               className="bg-[#1A73E8] hover:bg-blue-700 text-white font-semibold px-6 py-3.5 rounded-lg shadow-lg shadow-blue-600/25 transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-400 focus-visible:ring-offset-2 focus-visible:ring-offset-[#1A202C]"
             >
-              Comprar ahora - {PRICE_LABEL}
+              Comprar ahora — {PRICE_LABEL}
             </button>
             <a
               href="#como-funciona"

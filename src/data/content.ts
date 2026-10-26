@@ -1,7 +1,7 @@
 // Contenido literal del sitio Marketing Master HUB.
 // Todo el copy vive acá para que marketing pueda editarlo sin tocar componentes.
 
-export const PRICE_LABEL = 'AR$ 100.000/mes'
+export const PRICE_LABEL = 'AR$ 90.000/mes'
 
 export const NAV_LINKS = [
   { label: 'Cómo funciona', href: '#como-funciona' },
@@ -213,31 +213,34 @@ export const AUDIENCES: { icon: 'agency' | 'freelancer' | 'business'; title: str
   },
 ]
 
-export const COMPARISON = [
-  { fn: 'CRM y gestión de pipelines', ex: 'ej.: HubSpot, ActiveCampaign', price: 'USD 99/mes' },
-  { fn: 'Embudos de venta ilimitados', ex: 'ej.: ClickFunnels, Leadpages', price: 'USD 297/mes' },
-  { fn: 'Constructor de sitios web', ex: 'ej.: WordPress, Squarespace, Wix', price: 'USD 29/mes' },
-  { fn: 'Ecommerce', ex: 'ej.: Shopify, WooCommerce', price: 'USD 39/mes' },
-  { fn: 'Formularios y encuestas', ex: 'ej.: Jotform, Typeform', price: 'USD 79/mes' },
-  { fn: 'Email marketing', ex: 'ej.: Mailchimp, Constant Contact', price: 'USD 99/mes' },
-  { fn: 'SMS marketing bidireccional', ex: 'ej.: Twilio, Podium', price: 'USD 99/mes' },
-  { fn: 'Reservas y citas', ex: 'ej.: Calendly, Acuity Scheduling', price: 'USD 29/mes' },
-  { fn: 'Automatizaciones (workflows)', ex: 'ej.: Zapier, Make, Keap', price: 'USD 169/mes' },
-  { fn: 'Agente de voz con IA', ex: 'ej.: Synthflow, Air AI', price: 'USD 99/mes' },
-  { fn: 'Contenido y chat con IA', ex: 'ej.: Jasper, ManyChat', price: 'USD 99/mes' },
-  { fn: 'Gestión de anuncios', ex: 'ej.: AdEspresso, Revealbot', price: 'USD 149/mes' },
-  { fn: 'SEO y fichas locales', ex: 'ej.: Semrush, Moz Local', price: 'USD 139/mes' },
-  { fn: 'Cursos y productos digitales', ex: 'ej.: Kajabi, Teachable', price: 'USD 89/mes' },
-  { fn: 'Comunidades', ex: 'ej.: Skool, Circle', price: 'USD 89/mes' },
-  { fn: 'Seguimiento de llamadas', ex: 'ej.: CallRail', price: 'USD 49/mes' },
-  { fn: 'Gestión de reputación', ex: 'ej.: Birdeye, Podium', price: 'USD 159/mes' },
-  { fn: 'Tracking y analítica', ex: 'ej.: AgencyAnalytics', price: 'USD 79/mes' },
-  { fn: 'Firma de documentos', ex: 'ej.: DocuSign, PandaDoc', price: 'USD 47/mes' },
-  { fn: 'App móvil', ex: 'Exclusivo de la plataforma', price: '—' },
+export type ComparisonRow = { fn: string; tools: string[]; price: string; exclusive?: boolean }
+
+// Los nombres de `tools` deben existir en TOOLS (src/data/tools.ts)
+export const COMPARISON: ComparisonRow[] = [
+  { fn: 'CRM y gestión de pipelines', tools: ['HubSpot', 'ActiveCampaign'], price: 'USD 99/mes' },
+  { fn: 'Embudos de venta ilimitados', tools: ['ClickFunnels', 'Leadpages'], price: 'USD 297/mes' },
+  { fn: 'Constructor de sitios web', tools: ['WordPress', 'Squarespace', 'Wix'], price: 'USD 29/mes' },
+  { fn: 'Ecommerce', tools: ['Shopify', 'WooCommerce'], price: 'USD 39/mes' },
+  { fn: 'Formularios y encuestas', tools: ['Jotform', 'Typeform'], price: 'USD 79/mes' },
+  { fn: 'Email marketing', tools: ['Mailchimp', 'Constant Contact'], price: 'USD 99/mes' },
+  { fn: 'SMS marketing bidireccional', tools: ['Twilio', 'Podium'], price: 'USD 99/mes' },
+  { fn: 'Reservas y citas', tools: ['Calendly', 'Acuity Scheduling'], price: 'USD 29/mes' },
+  { fn: 'Automatizaciones (workflows)', tools: ['Zapier', 'Make', 'Keap'], price: 'USD 169/mes' },
+  { fn: 'Agente de voz con IA', tools: ['Synthflow', 'Air AI'], price: 'USD 99/mes' },
+  { fn: 'Contenido y chat con IA', tools: ['Jasper', 'ManyChat'], price: 'USD 99/mes' },
+  { fn: 'Gestión de anuncios', tools: ['AdEspresso', 'Revealbot'], price: 'USD 149/mes' },
+  { fn: 'SEO y fichas locales', tools: ['Semrush', 'Moz Local'], price: 'USD 139/mes' },
+  { fn: 'Cursos y productos digitales', tools: ['Kajabi', 'Teachable'], price: 'USD 89/mes' },
+  { fn: 'Comunidades', tools: ['Skool', 'Circle'], price: 'USD 89/mes' },
+  { fn: 'Seguimiento de llamadas', tools: ['CallRail'], price: 'USD 49/mes' },
+  { fn: 'Gestión de reputación', tools: ['Birdeye', 'Podium'], price: 'USD 159/mes' },
+  { fn: 'Tracking y analítica', tools: ['AgencyAnalytics'], price: 'USD 79/mes' },
+  { fn: 'Firma de documentos', tools: ['DocuSign', 'PandaDoc'], price: 'USD 47/mes' },
+  { fn: 'App móvil', tools: [], price: '—', exclusive: true },
 ]
 
 export const COMPARISON_NOTE =
-  '*Valores de referencia publicados por la plataforma oficial de HighLevel para herramientas equivalentes contratadas por separado. Pueden variar según proveedor y plan. Las marcas mencionadas pertenecen a sus respectivos propietarios y se citan solo como referencia de categoría. El precio en dólares es una referencia calculada sobre el valor en pesos argentinos de la suscripción mensual (AR$100.000) a un tipo de cambio de AR$1.600 por dólar.'
+  '*Valores de referencia publicados por la plataforma oficial de HighLevel para herramientas equivalentes contratadas por separado. Pueden variar según proveedor y plan. Las marcas mencionadas pertenecen a sus respectivos propietarios y se citan solo como referencia de categoría. El precio en dólares es una referencia calculada sobre el valor en pesos argentinos de la suscripción mensual (AR$90.000) a un tipo de cambio de AR$1.600 por dólar.'
 
 // ——— Secciones redactadas a partir del brief (el original no estaba disponible) ———
 
@@ -262,7 +265,7 @@ export const PROCESS_STEPS = [
   },
   {
     title: 'Pagas de forma segura con Getnet',
-    text: 'Te llevamos al checkout de Getnet para abonar la suscripción mensual de AR$ 100.000. Tus datos de tarjeta nunca pasan por nuestros servidores.',
+    text: 'Te llevamos al checkout de Getnet para abonar la suscripción mensual de AR$ 90.000. Tus datos de tarjeta nunca pasan por nuestros servidores.',
   },
   {
     title: 'Recibes tu acceso',
@@ -319,7 +322,7 @@ export const FAQS = [
   },
   {
     q: '¿Cuánto cuesta y qué incluye?',
-    a: 'La suscripción cuesta AR$ 100.000 por mes e incluye todas las funciones de la plataforma. No hay módulos, planes superiores ni funciones bloqueadas.',
+    a: 'La suscripción cuesta AR$ 90.000 por mes e incluye todas las funciones de la plataforma. No hay módulos, planes superiores ni funciones bloqueadas.',
   },
   {
     q: '¿Hay costos adicionales?',

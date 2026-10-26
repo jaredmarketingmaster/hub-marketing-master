@@ -25,10 +25,10 @@ export function Pricing({ onBuy }: Props) {
             <p className="text-sm text-slate-600 mb-6">Todas las funciones, para todo tu negocio.</p>
 
             <div className="flex items-end gap-1.5 mb-1">
-              <span className="font-display text-4xl md:text-5xl font-bold text-slate-900 tracking-tight">AR$ 100.000</span>
+              <span className="font-display text-4xl md:text-5xl font-bold text-slate-900 tracking-tight">AR$ 90.000</span>
               <span className="text-slate-500 font-medium mb-1.5">/mes</span>
             </div>
-            <p className="text-xs text-slate-400 mb-7">Equivale a ~USD 62,5 por mes. Facturación mensual.</p>
+            <p className="text-xs text-slate-400 mb-7">Equivale a ~USD 56,25 por mes. Facturación mensual.</p>
 
             <button
               type="button"

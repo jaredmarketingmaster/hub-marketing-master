@@ -18,8 +18,13 @@ export function Audiences() {
           {AUDIENCES.map((a) => {
             const Icon = ICONS[a.icon]
             return (
-              <article key={a.title} className="bg-white border border-slate-200 rounded-2xl p-7 shadow-sm">
-                <span className="w-12 h-12 rounded-xl bg-blue-50 text-blue-600 ring-1 ring-blue-100 flex items-center justify-center mb-5">
+              <article
+                key={a.title}
+                tabIndex={0}
+                onTouchStart={() => {}}
+                className="glow-card group p-7 cursor-default"
+              >
+                <span className="w-12 h-12 rounded-xl bg-blue-50 text-blue-600 ring-1 ring-blue-100 flex items-center justify-center mb-5 transition-colors duration-300 group-hover:bg-blue-600 group-hover:text-white group-hover:ring-blue-600 group-focus-within:bg-blue-600 group-focus-within:text-white group-focus-within:ring-blue-600">
                   <Icon className="w-6 h-6" strokeWidth={1.75} aria-hidden />
                 </span>
                 <h3 className="text-lg font-bold text-slate-900 mb-2">{a.title}</h3>

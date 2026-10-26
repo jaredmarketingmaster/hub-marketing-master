@@ -21,7 +21,7 @@ export function FinalCta({ onBuy }: Props) {
             onClick={onBuy}
             className="bg-white hover:bg-blue-50 text-[#1A73E8] font-bold px-6 py-3.5 rounded-lg shadow-lg shadow-black/20 transition-colors"
           >
-            Comprar ahora - {PRICE_LABEL}
+            Comprar ahora — {PRICE_LABEL}
           </button>
           <a
             href="#preguntas"

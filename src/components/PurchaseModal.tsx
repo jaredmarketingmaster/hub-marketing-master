@@ -132,10 +132,10 @@ export function PurchaseModal({ open, onClose }: Props) {
           <p className="text-lg font-bold mb-1">Marketing Master HUB</p>
           <p className="text-sm text-slate-400 mb-6">Plan único, todo incluido</p>
           <div className="flex items-end gap-1 mb-1">
-            <span className="font-display text-3xl font-bold tracking-tight">AR$ 100.000</span>
+            <span className="font-display text-3xl font-bold tracking-tight">AR$ 90.000</span>
             <span className="text-slate-400 text-sm mb-1">/mes</span>
           </div>
-          <p className="text-xs text-slate-500 mb-6">~USD 62,5 por mes</p>
+          <p className="text-xs text-slate-500 mb-6">~USD 56,25 por mes</p>
           <ul className="space-y-2.5 mb-auto">
             {SUMMARY.map((s) => (
               <li key={s} className="flex gap-2 text-sm text-slate-300">
@@ -155,7 +155,7 @@ export function PurchaseModal({ open, onClose }: Props) {
             Comprar Marketing Master HUB
           </h2>
           <p className="text-sm text-slate-600 mb-6">
-            <span className="md:hidden font-semibold text-slate-900">AR$ 100.000/mes · </span>
+            <span className="md:hidden font-semibold text-slate-900">AR$ 90.000/mes · </span>
             Completa tus datos y te llevamos al pago seguro.
           </p>
 
@@ -221,7 +221,7 @@ export function PurchaseModal({ open, onClose }: Props) {
                   className="mt-0.5 w-4 h-4 rounded border-slate-300 text-blue-600 focus:ring-blue-500"
                   aria-invalid={!!errors.accept}
                 />
-                Acepto que mis datos se usen para crear mi cuenta y procesar la suscripción mensual de AR$ 100.000.
+                Acepto que mis datos se usen para crear mi cuenta y procesar la suscripción mensual de AR$ 90.000.
               </label>
               {errors.accept && <p className="text-xs text-red-500 mt-1.5">{errors.accept}</p>}
             </div>
