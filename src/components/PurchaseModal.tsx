@@ -19,10 +19,10 @@ const SUMMARY = [
   'App móvil incluida',
 ]
 
-// Resumen del panel lateral según el plan elegido (USD a AR$ 1.600, como en la nota legal)
+// Resumen del panel lateral según el plan elegido (USD a ~AR$ 1.525, como en la nota legal)
 const PLAN_SUMMARY: Record<PlanId, { price: string; period: string; note: string }> = {
-  monthly: { price: 'AR$ 90.000', period: '/mes', note: '~USD 56,25 por mes' },
-  annual: { price: 'AR$ 900.000', period: '/año', note: '~USD 562,50 por año · 2 meses gratis' },
+  monthly: { price: 'AR$ 90.000', period: '/mes', note: '~USD 59 por mes' },
+  annual: { price: 'AR$ 900.000', period: '/año', note: '~USD 590 por año · 2 meses gratis' },
 }
 
 function validate(f: Fields): Errors {

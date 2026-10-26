@@ -109,7 +109,7 @@ export function Comparison() {
             <span>Tu precio con Marketing Master HUB</span>
             <span className="text-right leading-tight">
               <span className="block whitespace-nowrap font-display">{PRICE_LABEL}</span>
-              <span className="block text-xs font-semibold text-white/80">≈ USD 56,25/mes</span>
+              <span className="block text-xs font-semibold text-white/80">≈ USD 59/mes</span>
             </span>
           </div>
         </div>

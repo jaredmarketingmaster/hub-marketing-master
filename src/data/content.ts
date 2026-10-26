@@ -269,7 +269,7 @@ export const COMPARISON: ComparisonRow[] = [
 ]
 
 export const COMPARISON_NOTE =
-  '*Valores de referencia publicados por la plataforma oficial de HighLevel para herramientas equivalentes contratadas por separado. Pueden variar según proveedor y plan. Las marcas mencionadas pertenecen a sus respectivos propietarios y se citan solo como referencia de categoría. El precio en dólares es una referencia calculada sobre el valor en pesos argentinos de la suscripción mensual (AR$90.000) a un tipo de cambio de AR$1.600 por dólar.'
+  '*Valores de referencia publicados por la plataforma oficial de HighLevel para herramientas equivalentes contratadas por separado. Pueden variar según proveedor y plan. Las marcas mencionadas pertenecen a sus respectivos propietarios y se citan solo como referencia de categoría. El precio en dólares es una referencia calculada sobre el valor en pesos argentinos de la suscripción mensual (AR$90.000) a un tipo de cambio de referencia de AR$1.525 por dólar.'
 
 // ——— Secciones redactadas a partir del brief (el original no estaba disponible) ———
 

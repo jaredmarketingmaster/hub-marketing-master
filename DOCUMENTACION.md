@@ -48,7 +48,7 @@ Objetivo de la página: que el visitante entienda el valor, compare contra el co
 | Destino final | La página se importará a **GoHighLevel (AI Studio)**. Allí se conectan los contactos, el CRM/pipeline y demás funciones; por eso el formulario no tiene backend propio. GitHub Pages es solo la vista previa |
 | URL publicada | https://jaredmarketingmaster.github.io/hub-marketing-master/ |
 | Despliegue | GitHub Actions (`.github/workflows/deploy-pages.yml`) en cada push a la rama o a `main` |
-| Precio vigente | **AR$ 90.000/mes** (≈ USD 56,25) o **AR$ 900.000/año** (≈ USD 562,50), a AR$ 1.600 por dólar |
+| Precio vigente | **AR$ 90.000/mes** (≈ USD 59) o **AR$ 900.000/año** (≈ USD 590), a un tipo de cambio de referencia de AR$ 1.525 por dólar |
 | Build | `npm run build` compila sin errores ni warnings de TypeScript |
 | Pago | Mercado Pago, un link `mpago.la` por plan (ver §10) |
 | Tests automatizados | No hay. La verificación se hace con build + capturas con Playwright (ver §16) |
@@ -292,7 +292,7 @@ Consecuencia: `text-blue-600`, `bg-emerald-400`, `text-slate-900`, etc. ya son c
 
 `PurchaseModal.tsx`:
 - Se abre desde cualquier botón "Comprar ahora". Cierra con Esc, clic en el fondo o la X. Bloquea el scroll del body, atrapa el foco (Tab/Shift+Tab, ignorando el paso oculto) y devuelve el foco al botón que lo abrió.
-- Columna izquierda (solo desktop): logo, plan, precio **del plan elegido** (AR$ 90.000/mes ~USD 56,25 o AR$ 900.000/año ~USD 562,50), 3 beneficios, "Pago 100% seguro con Mercado Pago".
+- Columna izquierda (solo desktop): logo, plan, precio **del plan elegido** (AR$ 90.000/mes ~USD 59 o AR$ 900.000/año ~USD 590), 3 beneficios, "Pago 100% seguro con Mercado Pago".
 - **Flujo de 2 pasos** dentro del mismo modal: el paso 1 se desliza a la izquierda y entra el 2 (transform, 500 ms; sin movimiento con reduced-motion). Indicador "Paso X de 2".
   - **Paso 1 — datos:** Nombre y apellido*, Email*, WhatsApp*, Nombre del negocio (opcional), checkbox de aceptación*. Validación en el cliente; el foco va al primer error. Botón **"Elegir el plan de pago"**: valida y pasa al paso 2 (no redirige).
   - **Paso 2 — plan:** botón "← Volver" (conserva los datos) y dos tarjetas-radio desde `PLANS` (`content.ts`): **Pago Mensual** (ARS 90.000 / mes) y **Pago Anual** (ARS 900.000 / año, badge "¡Obtén 2 meses gratis!", "(ARS 180.000 de descuento — 2 meses gratis)", "Equivale a ARS 75.000 por mes."). Preseleccionado: mensual (`DEFAULT_PLAN`), porque coincide con el precio de los botones "Comprar ahora".
@@ -324,17 +324,17 @@ Consecuencia: `text-blue-600`, `bg-emerald-400`, `text-slate-900`, etc. ya son c
 
 ## 11. Precio: dónde vive y cómo cambiarlo
 
-El precio **no está en un solo lugar**. Si cambia, hay que tocar todo esto (búsqueda útil: `grep -rn "90\.000\|56,25" src`):
+El precio **no está en un solo lugar**. Si cambia, hay que tocar todo esto (búsqueda útil: `grep -rn "90\.000\|USD 59" src`):
 
 | Archivo | Qué contiene |
 |---|---|
 | `src/data/content.ts` | `PRICE_LABEL = 'AR$ 90.000/mes'` (usado en Hero, FinalCta y fila de la tabla) · `PLANS` (precios y links de Mercado Pago del paso 2 del modal) · nota legal `COMPARISON_NOTE` "(AR$90.000)" · paso 2 de `PROCESS_STEPS` · FAQ "¿Cuánto cuesta y qué incluye?" |
-| `src/components/Pricing.tsx` | Cifra grande "AR$ 90.000" y "Equivale a ~USD 56,25 por mes" |
+| `src/components/Pricing.tsx` | Cifra grande "AR$ 90.000" y "Equivale a ~USD 59 por mes" |
 | `src/components/PurchaseModal.tsx` | `PLAN_SUMMARY` del panel lateral (precio y USD de cada plan) |
-| `src/components/Comparison.tsx` | "≈ USD 56,25/mes" en la fila de precio |
+| `src/components/Comparison.tsx` | "≈ USD 59/mes" en la fila de precio |
 | `src/components/Footer.tsx` | "Suscripción con débito automático de AR$ 90.000 por mes o AR$ 900.000 por año…" |
 
-Si cambia un link de pago, editar `checkoutUrl` en `PLANS`. Fórmula del equivalente en dólares: `precio ARS / 1.600` (tipo de cambio fijado en la nota legal). Si cambia el tipo de cambio, actualizar también la nota legal.
+Si cambia un link de pago, editar `checkoutUrl` en `PLANS`. Fórmula del equivalente en dólares: `precio ARS / 1.525` (USD 59 por mes, USD 590 por año) (tipo de cambio fijado en la nota legal). Si cambia el tipo de cambio, actualizar también la nota legal.
 
 El título "reemplaza más de USD 1.900" y el total "~ USD 1.936/mes" no dependen del precio de HUB.
 
@@ -440,6 +440,10 @@ Cronológico. Cada bloque = un pedido del usuario y el commit resultante en `cla
 13. **Publicación en `main`**
     - El usuario revisó el sitio publicado y pidió pasar todo a `main` para importarlo a GoHighLevel (AI Studio).
     - `main` avanzó directo hasta este commit: no hubo merge ni conflictos, porque `main` solo tenía el commit inicial.
+
+14. **Equivalente en dólares USD 56,25 → USD 59** (pedido del usuario)
+    - Cambió en Precio, en la fila de precio de la tabla y en el resumen del modal. El anual pasa de ~USD 562,50 a ~USD 590.
+    - La nota legal pasa a un tipo de cambio de referencia de AR$ 1.525 por dólar: es el que implica USD 59 (90.000 / 59 = 1.525,42; 90.000 / 1.525 = 59,02).
 
 ---
 
