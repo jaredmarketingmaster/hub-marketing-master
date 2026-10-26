@@ -6,4 +6,10 @@ export default defineConfig({
   // Rutas relativas: funciona en GitHub Pages (usuario.github.io/hub-marketing-master/)
   // y también en un dominio propio, sin cambiar nada.
   base: './',
+  build: {
+    rollupOptions: {
+      // Dos entradas HTML: la landing y la página de gracias post-compra (gracias.html)
+      input: { main: 'index.html', gracias: 'gracias.html' },
+    },
+  },
 })

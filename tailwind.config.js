@@ -71,8 +71,27 @@ export default {
           from: { opacity: '0', transform: 'translateY(6px)' },
           to: { opacity: '1', transform: 'translateY(0)' },
         },
+        // Badge de éxito de la página de gracias
+        'pop-in': {
+          '0%': { opacity: '0', transform: 'scale(0.6)' },
+          '60%': { opacity: '1', transform: 'scale(1.06)' },
+          '100%': { opacity: '1', transform: 'scale(1)' },
+        },
+        'draw-check': { from: { strokeDashoffset: '1' }, to: { strokeDashoffset: '0' } },
+        halo: {
+          from: { opacity: '0.55', transform: 'scale(1)' },
+          to: { opacity: '0', transform: 'scale(1.9)' },
+        },
+        'rise-in': {
+          from: { opacity: '0', transform: 'translateY(14px)' },
+          to: { opacity: '1', transform: 'translateY(0)' },
+        },
       },
       animation: {
+        'pop-in': 'pop-in 520ms cubic-bezier(0.16, 1, 0.3, 1) both',
+        'draw-check': 'draw-check 420ms ease-out 380ms both',
+        halo: 'halo 1.8s ease-out 600ms 3 both',
+        'rise-in': 'rise-in 600ms cubic-bezier(0.16, 1, 0.3, 1) both',
         'fade-in': 'fade-in 200ms ease-out',
         'modal-in': 'modal-in 240ms cubic-bezier(0.16, 1, 0.3, 1)',
         'tab-in': 'tab-in 260ms ease-out',

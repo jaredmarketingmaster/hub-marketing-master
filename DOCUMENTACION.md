@@ -2,7 +2,7 @@
 
 > **Para quien continúe este trabajo (persona o IA):** este archivo es la fuente de verdad del proyecto. Explica qué es, cómo está construido, por qué se tomó cada decisión, qué se hizo en cada etapa y qué queda pendiente. Léelo completo antes de tocar código. Al terminar cada tanda de cambios, **actualiza la sección 14 (Historial) y la 15 (Pendientes)**.
 
-Última actualización: 26/10/2026 · Último commit documentado: `ac03880`
+Última actualización: 26/10/2026 · Último commit documentado: página de gracias (ver §14, punto 10)
 
 ---
 
@@ -107,8 +107,9 @@ hub-marketing-master/
 ├── DOCUMENTACION.md            ← este archivo
 ├── README.md                   ← instrucciones cortas de uso y deploy
 ├── index.html                  ← <title>, favicon, apple-touch-icon, Google Fonts (Lato + Barlow), theme-color
+├── gracias.html                ← 2ª entrada del build: página de gracias post-compra (noindex, ver §10.1)
 ├── package.json / package-lock.json
-├── vite.config.ts              ← base: './' (rutas relativas, necesario para GitHub Pages)
+├── vite.config.ts              ← base: './' (rutas relativas, necesario para GitHub Pages) + 2 entradas (index, gracias)
 ├── tailwind.config.js          ← PALETA DE MARCA (sobrescribe blue/emerald/slate), fuentes, animaciones
 ├── postcss.config.js
 ├── tsconfig.json
@@ -117,9 +118,13 @@ hub-marketing-master/
 ├── .github/workflows/deploy-pages.yml  ← build + deploy a Pages (con espera anti-pisado, ver §13)
 ├── public/
 │   ├── .nojekyll               ← evita que Pages procese con Jekyll
+│   ├── 404.html                ← redirige /gracias y /gracias/ a gracias.html; 404 simple para lo demás
 │   └── apple-touch-icon.png    ← logo HUB 180×180 (icono al guardar en iPhone)
 └── src/
-    ├── main.tsx                ← monta <App/>
+    ├── main.tsx                ← monta <App/> o la página de gracias (carga diferida) según la ruta
+    ├── routes.ts               ← detecta la ruta de gracias y agrega noindex
+    ├── pages/
+    │   └── ThankYou.tsx        ← página de gracias + constantes SUPPORT_EMAIL / SUPPORT_PHONE
     ├── App.tsx                 ← orden de secciones + estado del modal de compra
     ├── index.css               ← base, utilidades de marca (degradados, glow-card, glass-card)
     ├── vite-env.d.ts           ← tipos de import.meta.env
@@ -285,6 +290,24 @@ Consecuencia: `text-blue-600`, `bg-emerald-400`, `text-slate-900`, etc. ya son c
   - Si **no** está definida (estado actual) → muestra un aviso amarillo "El checkout de Getnet todavía no está configurado…" y no redirige.
 - **No hay backend**: los datos no se guardan en ningún lado; solo viajan a Getnet en la URL.
 
+### 10.1 Página de gracias (post-compra)
+- Archivo: `src/pages/ThankYou.tsx`. Se carga en un chunk aparte (`React.lazy`), así no suma peso a la landing.
+- **Ningún enlace del sitio apunta a ella** (navbar, footer y botones no la mencionan). Solo se llega por link directo o por la redirección de la pasarela de pago.
+- **Rutas que la abren** (`src/routes.ts`):
+  - `gracias.html`: archivo real del build. **Es la URL que se configura en la pasarela:** `https://jaredmarketingmaster.github.io/hub-marketing-master/gracias.html`.
+  - `gracias` y `gracias/`: GitHub Pages las resuelve, y si no, `public/404.html` redirige a `gracias.html` conservando los parámetros.
+  - `?page=gracias` y `#gracias`: usan el mismo `index.html`.
+- **Noindex:** `gracias.html` trae `<meta name="robots" content="noindex, nofollow">` en el HTML. Para `?page=` y `#`, el meta lo agrega `markNoIndex()` al cargar.
+- **Contenido:**
+  - El H1, el H2 y los 4 pasos son literales del pedido del usuario (26/10/2026); no cambiarlos sin pedido explícito.
+  - Fueron redactados por la IA: la pastilla "Compra confirmada", los rótulos "Próximos pasos" y "Soporte directo", el título "¿Tuviste algún inconveniente?", el texto introductorio de soporte, y el asunto y el mensaje del correo y del WhatsApp.
+- **Soporte directo:**
+  - `SUPPORT_EMAIL` y `SUPPORT_PHONE` están arriba del componente. El teléfono va en formato internacional; de él salen `wa.me/<dígitos>` y `tel:+<dígitos>`.
+  - Si un dato está vacío, su botón no se muestra. En `npm run dev` aparece un aviso amarillo; en producción no.
+- **Animación:**
+  - Check con aparición, trazo y tres halos (`pop-in`, `draw-check`, `halo` y `rise-in` en `tailwind.config.js`).
+  - Todo va con `motion-safe:`: con reduced-motion la página se ve completa y quieta.
+
 ---
 
 ## 11. Precio: dónde vive y cómo cambiarlo
@@ -365,6 +388,15 @@ Cronológico. Cada bloque = un pedido del usuario y el commit resultante en `cla
    - Tabla comparativa rediseñada: columna "Reemplaza a" con píldoras logo + nombre, muro de logos "+37", nueva fila de precio en pesos, layout compacto en mobile. Nuevos archivos `src/data/tools.ts`, `src/components/ToolLogo.tsx`, `src/assets/tools/`.
    - Nota: el usuario mencionó nombres aproximados ("Tu inversión con…", "Reputación y reseñas", "Pipedrive"); se respetaron los textos existentes en el código.
 9. **Esta documentación** — `DOCUMENTACION.md` + enlace desde el README.
+10. **Página de gracias post-compra** (rama `claude/stoic-carson-em6ai0`)
+    - Archivos nuevos: `gracias.html`, `src/pages/ThankYou.tsx`, `src/routes.ts` y `public/404.html`.
+    - Archivos modificados: `vite.config.ts` (2 entradas), `main.tsx` (elige la vista), `Logo` (prop `href`) y animaciones nuevas en `tailwind.config.js`. Detalle en §10.1.
+    - Verificado con Playwright, en un servidor que imita a GitHub Pages bajo `/hub-marketing-master/`:
+      - Las 5 variantes de URL abren la página, con y sin resolución de URLs sin extensión, y con parámetros extra.
+      - En todas hay `noindex`, un solo `h1` y nada de scroll horizontal de 320 a 1440 px.
+      - Hay 0 enlaces a la página desde la landing.
+      - "Volver al sitio principal" lleva a la landing.
+      - Con reduced-motion no corre ninguna animación.
 
 ---
 
@@ -372,6 +404,12 @@ Cronológico. Cada bloque = un pedido del usuario y el commit resultante en `cla
 
 ### Bloqueantes para vender
 - [ ] **Configurar el checkout de Getnet**: definir la variable `VITE_CHECKOUT_URL` en GitHub (Settings → Secrets and variables → Actions → Variables) y relanzar el deploy. Confirmar con Getnet si acepta los parámetros `name/email/phone/business` o si hay que ajustarlos.
+
+### Página de gracias
+- [ ] **Completar `SUPPORT_EMAIL` y `SUPPORT_PHONE`** en `src/pages/ThankYou.tsx` (hoy vacíos: el bloque de soporte se ve sin botones).
+- [ ] Publicar: el workflow de deploy no se dispara con la rama `claude/stoic-carson-em6ai0` (ver §13).
+- [ ] Configurar en la pasarela la URL de retorno `https://jaredmarketingmaster.github.io/hub-marketing-master/gracias.html`.
+- [ ] El pedido nombra dLocal / Mercado Pago, pero el sitio dice Getnet. Confirmar cuál es la pasarela real y unificar los textos.
 
 ### Configuración
 - [ ] **Cambiar Settings → Pages → Source a "GitHub Actions"** (ver §13.2).
