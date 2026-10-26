@@ -7,7 +7,7 @@ import { SectionHeader } from './SectionHeader'
 const STEP_ICONS: LucideIcon[] = [
   MousePointerClick, // Clic en "Comprar ahora"
   ShieldCheck, // Pago seguro con Mercado Pago
-  KeyRound, // Recibes tu acceso
+  KeyRound, // Comienza tu onboarding (usuario de administrador)
   Rocket, // Configuras y empiezas a vender
 ]
 

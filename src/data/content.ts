@@ -297,8 +297,8 @@ export const PROCESS_STEPS = [
     text: 'Eliges el plan mensual (AR$ 90.000) o el anual (AR$ 900.000, con 2 meses gratis) y pagas en el checkout de Mercado Pago, con débito automático. Tus datos de tarjeta nunca pasan por nuestros servidores.',
   },
   {
-    title: 'Recibes tu acceso',
-    text: 'Con el pago confirmado, te enviamos por email el acceso a tu cuenta de Marketing Master HUB con todas las funciones habilitadas.',
+    title: 'Comienza tu onboarding',
+    text: 'Con el pago confirmado, tu onboarding comienza en menos de 24 horas hábiles: el equipo de Marketing Master HUB te contacta y crea tu usuario de administrador con el mismo email con el que pagaste.',
   },
   {
     title: 'Configuras y empiezas a vender',
@@ -363,7 +363,7 @@ export const FAQS = [
   },
   {
     q: '¿Cuándo tengo acceso a la plataforma?',
-    a: 'Desde el primer día. Una vez confirmado el pago, recibes por email los datos de acceso a tu cuenta con todas las funciones habilitadas.',
+    a: 'Una vez confirmado el pago, tu onboarding comienza en menos de 24 horas hábiles: el equipo de Marketing Master HUB te contacta, crea tu usuario de administrador con el mismo email con el que realizaste el pago y te acompaña en una breve charla para que empieces a usar el sistema.',
   },
   {
     q: '¿Necesito conocimientos técnicos para usarla?',

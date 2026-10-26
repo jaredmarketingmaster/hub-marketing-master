@@ -2,7 +2,7 @@
 
 > **Para quien continúe este trabajo (persona o IA):** este archivo es la fuente de verdad del proyecto. Explica qué es, cómo está construido, por qué se tomó cada decisión, qué se hizo en cada etapa y qué queda pendiente. Léelo completo antes de tocar código. Al terminar cada tanda de cambios, **actualiza la sección 14 (Historial) y la 15 (Pendientes)**.
 
-Última actualización: 26/10/2026 · Último cambio documentado: Mercado Pago, modal de 2 pasos y pulido visual (ver §14, punto 11)
+Última actualización: 26/10/2026 · Último cambio documentado: onboarding en 24 horas hábiles y rama única (ver §14, punto 12)
 
 ---
 
@@ -44,7 +44,8 @@ Objetivo de la página: que el visitante entienda el valor, compare contra el co
 | Ítem | Valor |
 |---|---|
 | Repositorio | `jaredmarketingmaster/hub-marketing-master` |
-| Rama de trabajo | `claude/awesome-cray-uqhl3x` (todo el trabajo vive acá; **no se mergeó a `main`**, `main` solo tiene el commit inicial) |
+| Rama de trabajo | `claude/awesome-cray-uqhl3x`: es la que publica en GitHub Pages. **No se mergeó a `main`**; `main` solo tiene el commit inicial. `claude/stoic-carson-em6ai0` fue una rama de una sesión, ya integrada y apuntando al mismo commit; no hace falta usarla |
+| Destino final | La página se importará a **GoHighLevel (AI Studio)**. Allí se conectan los contactos, el CRM/pipeline y demás funciones; por eso el formulario no tiene backend propio. GitHub Pages es solo la vista previa |
 | URL publicada | https://jaredmarketingmaster.github.io/hub-marketing-master/ |
 | Despliegue | GitHub Actions (`.github/workflows/deploy-pages.yml`) en cada push a la rama o a `main` |
 | Precio vigente | **AR$ 90.000/mes** (≈ USD 56,25) o **AR$ 900.000/año** (≈ USD 562,50), a AR$ 1.600 por dólar |
@@ -68,6 +69,8 @@ El usuario pidió **clonar pixel-perfect** el sitio `https://hub.marketingmaster
 - **Redactado por la IA** siguiendo el tono y el sistema de diseño del brief (el usuario lo aprobó al ver el sitio, pero conviene validar los datos comerciales — ver §15): tarjeta de precio, "Proceso de compra" (4 pasos), "Además" (6 extras), banner de la app LeadConnector, las 10 preguntas frecuentes, CTA final, footer y el modal de compra.
 
 ### 3.4 Cambios de contenido pedidos después por el usuario
+- Pasarela de pago: Getnet → **Mercado Pago**, con suscripción y débito automático, en plan mensual o anual (26/10/2026).
+- **Mensaje oficial de alta:** el onboarding comienza **en menos de 24 horas hábiles** después de confirmado el pago (26/10/2026). Aplicado en la página de gracias, el paso 3 del Proceso y la FAQ "¿Cuándo tengo acceso…?".
 - Precio de AR$ 100.000 → **AR$ 90.000** (26/10/2026).
 - Pastilla del Hero: de "Plataforma todo-en-uno para vender y fidelizar" → **"La plataforma más utilizada a nivel mundial para sistemas de marketing y ventas"**.
 - Botones de compra: separador cambiado de "-" a "—" (`Comprar ahora — AR$ 90.000/mes`).
@@ -400,7 +403,7 @@ Cronológico. Cada bloque = un pedido del usuario y el commit resultante en `cla
    - Tabla comparativa rediseñada: columna "Reemplaza a" con píldoras logo + nombre, muro de logos "+37", nueva fila de precio en pesos, layout compacto en mobile. Nuevos archivos `src/data/tools.ts`, `src/components/ToolLogo.tsx`, `src/assets/tools/`.
    - Nota: el usuario mencionó nombres aproximados ("Tu inversión con…", "Reputación y reseñas", "Pipedrive"); se respetaron los textos existentes en el código.
 9. **Esta documentación** — `DOCUMENTACION.md` + enlace desde el README.
-10. **Página de gracias post-compra** (rama `claude/stoic-carson-em6ai0`)
+10. **Página de gracias post-compra**
     - Archivos nuevos: `gracias.html`, `src/pages/ThankYou.tsx`, `src/routes.ts` y `public/404.html`.
     - Archivos modificados: `vite.config.ts` (2 entradas), `main.tsx` (elige la vista), `Logo` (prop `href`) y animaciones nuevas en `tailwind.config.js`. Detalle en §10.1.
     - Verificado con Playwright, en un servidor que imita a GitHub Pages bajo `/hub-marketing-master/`:
@@ -409,7 +412,7 @@ Cronológico. Cada bloque = un pedido del usuario y el commit resultante en `cla
       - Hay 0 enlaces a la página desde la landing.
       - "Volver al sitio principal" lleva a la landing.
       - Con reduced-motion no corre ninguna animación.
-11. **Mercado Pago, modal de 2 pasos y pulido visual** (rama `claude/stoic-carson-em6ai0`)
+11. **Mercado Pago, modal de 2 pasos y pulido visual**
     - Getnet → Mercado Pago en todo el sitio: Hero, Precio, Proceso (paso 2), FAQ, CTA final, Footer y modal. Se eliminó `VITE_CHECKOUT_URL` (`.env.example`, workflow, tipos).
     - Modal de compra en 2 pasos con elección de plan mensual/anual y links `mpago.la` (§10).
     - Pulido de Proceso, Además, AppBanner, FAQ y CTA final (§7, §8.3, §12). Nuevo `useReveal`.
@@ -427,19 +430,26 @@ Cronológico. Cada bloque = un pedido del usuario y el commit resultante en `cla
       - Sin scroll horizontal de 320 a 1440 px.
       - Sin errores de JS.
     - No se pudieron abrir los links reales de Mercado Pago desde el entorno de desarrollo (el proxy bloquea `mpago.la`): se verificó la URL de destino interceptando la navegación.
+12. **Onboarding en 24 horas hábiles y rama única**
+    - Paso 3 del Proceso, ahora "Comienza tu onboarding", y FAQ "¿Cuándo tengo acceso…?" alineados con la página de gracias.
+    - Decisiones del usuario:
+      - Los datos del formulario se integran al importar la página a GoHighLevel (AI Studio).
+      - Los links de Mercado Pago son suscripciones con débito automático (confirmado por el usuario).
+      - El usuario configurará la URL de retorno cuando el dominio esté publicado.
+    - Los commits de `claude/stoic-carson-em6ai0` se integraron a `claude/awesome-cray-uqhl3x` (avance directo, sin merge) para publicar.
 
 ---
 
 ## 15. Pendientes, riesgos y cosas a validar
 
 ### Bloqueantes para vender
-- [ ] **Publicar**: el workflow no se dispara con la rama `claude/stoic-carson-em6ai0` (ver §13).
-- [ ] **Probar los dos links de Mercado Pago** con un pago real o de prueba y confirmar que son **suscripciones** (débito automático) y no pagos únicos, porque el sitio lo promete así.
-- [ ] **URL de retorno en Mercado Pago:** configurar en ambos links `https://jaredmarketingmaster.github.io/hub-marketing-master/gracias.html`.
-- [ ] **Los datos del formulario no se guardan.** Hoy no van a ningún lado. Si se necesitan (por ejemplo, para crear el usuario con el mismo email, como dice la página de gracias), hay que conectar un destino: webhook, formulario de HighLevel o similar.
+- [ ] **URL de retorno en Mercado Pago** (a cargo del usuario, cuando el dominio definitivo esté publicado): `<dominio>/gracias.html`.
+- [x] Links de Mercado Pago: confirmados por el usuario como suscripciones con débito automático.
+- [x] Datos del formulario: se conectan al importar la página a GoHighLevel (AI Studio); no requiere backend propio.
 
 ### Página de gracias
-- [ ] Coherencia de mensajes: el paso 3 del Proceso y la FAQ "¿Cuándo tengo acceso…?" dicen que el acceso llega por email al confirmar el pago, y la página de gracias dice que el onboarding empieza en menos de 24 horas hábiles. Unificar.
+- [x] Coherencia de mensajes: el onboarding comienza en menos de 24 horas hábiles (decisión del usuario, aplicada).
+- [ ] "Acceso desde el primer día" sigue en el Hero (literal del brief), el CTA final y el resumen del modal. Lo mismo para "desde el primer día" en el subtítulo del Proceso y "Operas desde el primer día" en el paso 4. Confirmar si se mantienen junto al mensaje de onboarding en 24 horas hábiles.
 - [ ] La sección Precio y los botones "Comprar ahora" solo muestran el plan mensual; el anual aparece en el modal, en la FAQ y en el Footer. Decidir si se muestra también en Precio.
 
 ### Configuración
@@ -451,7 +461,6 @@ Cronológico. Cada bloque = un pedido del usuario y el commit resultante en `cla
 - [ ] **Pie del mockup** dice "Captura real de la plataforma…" pero el mockup es una recreación → reemplazar por una captura real (difuminada) o cambiar el texto.
 - [ ] **Pastilla del Hero** "La plataforma más utilizada a nivel mundial…": afirmación superlativa; tener a mano la fuente que la respalde.
 - [ ] **FAQ "¿Hay costos adicionales?"**: menciona que SMS, llamadas y plantillas de WhatsApp pueden tener costo por uso de terceros. Confirmar política real.
-- [ ] **FAQ / Proceso**: "recibes por email el acceso" es un supuesto; confirmar el flujo real de alta.
 - [ ] Textos redactados por la IA (§3.3): revisión general de tono y exactitud.
 - [ ] Mezcla de voseo/tuteo heredada del brief ("mantené" en la pestaña Capturar). Unificar si se desea (el brief lo pedía literal).
 - [ ] Total de la tabla: las 19 filas suman **USD 1.937**, el texto dice "~ USD 1.936" (literal del brief).
@@ -471,7 +480,7 @@ Cronológico. Cada bloque = un pedido del usuario y el commit resultante en `cla
 ## 16. Guía para continuar el trabajo
 
 ### 16.1 Flujo de trabajo recomendado
-1. `git pull origin claude/awesome-cray-uqhl3x` y `npm install`.
+1. `git pull origin claude/awesome-cray-uqhl3x` y `npm install` (es la única rama de trabajo; la que publica).
 2. Cambios de **texto** → `src/data/content.ts`. Cambios de **diseño** → el componente de la sección o `tailwind.config.js` / `src/index.css`.
 3. `npm run build` debe terminar sin errores (TypeScript es estricto: variables sin usar rompen el build).
 4. Verificación visual: `npm run preview` y capturas con Playwright en 1440×900 y 390×844. Chequear `document.documentElement.scrollWidth - innerWidth === 0` (sin scroll horizontal) y que no haya errores de consola.
