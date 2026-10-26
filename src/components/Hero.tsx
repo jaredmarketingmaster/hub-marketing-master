@@ -42,7 +42,7 @@ export function Hero({ onBuy }: Props) {
           </div>
 
           <p className="text-emerald-400 text-xs md:text-sm font-medium mb-12">
-            Acceso desde el primer día. Pago mensual procesado por Getnet. Sin módulos que se cobren aparte.
+            Acceso desde el primer día. Pago procesado por Mercado Pago. Sin módulos que se cobren aparte.
           </p>
 
           <figure className="max-w-4xl mx-auto bg-white rounded-t-xl shadow-2xl shadow-black/40 border border-slate-200 overflow-hidden">

@@ -39,7 +39,7 @@ export function Pricing({ onBuy }: Props) {
             </button>
             <p className="flex items-center justify-center gap-1.5 text-xs text-slate-500 mt-3">
               <ShieldCheck className="w-3.5 h-3.5 text-[#37B1AB]" />
-              Pago mensual seguro procesado por Getnet
+              Pago 100% seguro con Mercado Pago, con débito automático
             </p>
           </div>
 

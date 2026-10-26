@@ -13,11 +13,13 @@ import { Faq } from './components/Faq'
 import { FinalCta } from './components/FinalCta'
 import { Footer } from './components/Footer'
 import { PurchaseModal } from './components/PurchaseModal'
+import { useReveal } from './hooks/useReveal'
 
 export default function App() {
   const [buyOpen, setBuyOpen] = useState(false)
   const openBuy = useCallback(() => setBuyOpen(true), [])
   const closeBuy = useCallback(() => setBuyOpen(false), [])
+  useReveal()
 
   return (
     <>

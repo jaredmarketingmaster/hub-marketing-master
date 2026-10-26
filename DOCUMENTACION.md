@@ -2,7 +2,7 @@
 
 > **Para quien continúe este trabajo (persona o IA):** este archivo es la fuente de verdad del proyecto. Explica qué es, cómo está construido, por qué se tomó cada decisión, qué se hizo en cada etapa y qué queda pendiente. Léelo completo antes de tocar código. Al terminar cada tanda de cambios, **actualiza la sección 14 (Historial) y la 15 (Pendientes)**.
 
-Última actualización: 26/10/2026 · Último commit documentado: página de gracias (ver §14, punto 10)
+Última actualización: 26/10/2026 · Último cambio documentado: Mercado Pago, modal de 2 pasos y pulido visual (ver §14, punto 11)
 
 ---
 
@@ -17,7 +17,7 @@
 7. [La página sección por sección](#7-la-página-sección-por-sección)
 8. [Sistema de diseño (identidad de marca)](#8-sistema-de-diseño-identidad-de-marca)
 9. [Imágenes, logos y assets](#9-imágenes-logos-y-assets)
-10. [Modal de compra y checkout de Getnet](#10-modal-de-compra-y-checkout-de-getnet)
+10. [Modal de compra y pago con Mercado Pago](#10-modal-de-compra-y-pago-con-mercado-pago)
 11. [Precio: dónde vive y cómo cambiarlo](#11-precio-dónde-vive-y-cómo-cambiarlo)
 12. [Accesibilidad, responsive y animaciones](#12-accesibilidad-responsive-y-animaciones)
 13. [Despliegue en GitHub Pages](#13-despliegue-en-github-pages)
@@ -29,13 +29,13 @@
 
 ## 1. Qué es este proyecto
 
-Landing page de alta conversión (Single Page Application) para **Marketing Master HUB**, una plataforma todo-en-uno de marketing y ventas (CRM, embudos, WhatsApp, calendario, automatizaciones, pagos, email, cursos, reputación, etc.) que se vende como **suscripción mensual única de AR$ 90.000**, con pago procesado por **Getnet**.
+Landing page de alta conversión (Single Page Application) para **Marketing Master HUB**, una plataforma todo-en-uno de marketing y ventas (CRM, embudos, WhatsApp, calendario, automatizaciones, pagos, email, cursos, reputación, etc.) que se vende como **suscripción de AR$ 90.000/mes o AR$ 900.000/año** (el anual equivale a 2 meses gratis), con pago procesado por **Mercado Pago** (débito automático).
 
 La plataforma está construida sobre la tecnología de **HighLevel** (marca blanca). Su app móvil es **LeadConnector** (la app oficial de HighLevel). Por eso la tabla comparativa cita valores de referencia de HighLevel y la landing promociona la app LeadConnector.
 
 El cliente/autor es una agencia de marketing digital de performance (Marketing Master). Tono de comunicación: cercano, minimalista, fresco, con estándar de servicio "hotel 5 estrellas". Los textos del sitio están en **español rioplatense neutro** (mayormente tuteo: "tú tienes", con algún "mantené" heredado del brief original — ver pendientes).
 
-Objetivo de la página: que el visitante entienda el valor, compare contra el costo de herramientas sueltas y haga clic en **"Comprar ahora"**, que abre un modal que captura datos y redirige al checkout de Getnet.
+Objetivo de la página: que el visitante entienda el valor, compare contra el costo de herramientas sueltas y haga clic en **"Comprar ahora"**, que abre un modal de 2 pasos (datos → plan) y redirige al link de Mercado Pago del plan elegido.
 
 ---
 
@@ -47,9 +47,9 @@ Objetivo de la página: que el visitante entienda el valor, compare contra el co
 | Rama de trabajo | `claude/awesome-cray-uqhl3x` (todo el trabajo vive acá; **no se mergeó a `main`**, `main` solo tiene el commit inicial) |
 | URL publicada | https://jaredmarketingmaster.github.io/hub-marketing-master/ |
 | Despliegue | GitHub Actions (`.github/workflows/deploy-pages.yml`) en cada push a la rama o a `main` |
-| Precio vigente | **AR$ 90.000/mes** (≈ USD 56,25 a AR$ 1.600 por dólar) |
+| Precio vigente | **AR$ 90.000/mes** (≈ USD 56,25) o **AR$ 900.000/año** (≈ USD 562,50), a AR$ 1.600 por dólar |
 | Build | `npm run build` compila sin errores ni warnings de TypeScript |
-| Checkout de Getnet | **No configurado** todavía (falta la URL, ver §10) |
+| Pago | Mercado Pago, un link `mpago.la` por plan (ver §10) |
 | Tests automatizados | No hay. La verificación se hace con build + capturas con Playwright (ver §16) |
 
 ---
@@ -95,8 +95,7 @@ npm run preview    # sirve /dist (http://localhost:4173)
 npm run typecheck  # solo chequeo de tipos
 ```
 
-Variables de entorno (ver `.env.example`):
-- `VITE_CHECKOUT_URL` — URL del checkout de Getnet. Se lee en build time. En GitHub Actions se toma de **Settings → Secrets and variables → Actions → Variables**.
+No hay variables de entorno. Los links de pago están en `PLANS` (`src/data/content.ts`).
 
 ---
 
@@ -113,7 +112,6 @@ hub-marketing-master/
 ├── tailwind.config.js          ← PALETA DE MARCA (sobrescribe blue/emerald/slate), fuentes, animaciones
 ├── postcss.config.js
 ├── tsconfig.json
-├── .env.example                ← VITE_CHECKOUT_URL
 ├── .gitignore                  ← node_modules, dist, .env, *.tsbuildinfo
 ├── .github/workflows/deploy-pages.yml  ← build + deploy a Pages (con espera anti-pisado, ver §13)
 ├── public/
@@ -123,6 +121,8 @@ hub-marketing-master/
 └── src/
     ├── main.tsx                ← monta <App/> o la página de gracias (carga diferida) según la ruta
     ├── routes.ts               ← detecta la ruta de gracias y agrega noindex
+    ├── hooks/
+    │   └── useReveal.ts        ← apariciones al hacer scroll ([data-reveal] / [data-reveal-trigger])
     ├── pages/
     │   └── ThankYou.tsx        ← página de gracias + constantes SUPPORT_EMAIL / SUPPORT_PHONE
     ├── App.tsx                 ← orden de secciones + estado del modal de compra
@@ -153,7 +153,7 @@ hub-marketing-master/
         ├── Faq.tsx             ← acordeón de 10 preguntas
         ├── FinalCta.tsx        ← CTA final con degradado del logo
         ├── Footer.tsx
-        └── PurchaseModal.tsx   ← modal de compra (formulario + redirección a Getnet)
+        └── PurchaseModal.tsx   ← modal de compra en 2 pasos (datos → plan) + redirección a Mercado Pago
 ```
 
 `dist/` y `node_modules/` no se versionan.
@@ -187,11 +187,11 @@ Orden real en `App.tsx`. "Fondo oscuro" = clase `bg-dark-glow` o `bg-dark-glow-s
 | 5 | `Audiences` | `para-quien-es` | `#F8FAFC` | 3 perfiles (Agencias: edificio · Freelancers y consultores: laptop · Empresas y negocios locales: local). Efecto **glow-card** (ver §8.4) en hover/toque/foco |
 | 6 | `Comparison` | `cuanto-reemplaza` | Blanco | Muro de logos "+37 herramientas que dejas de pagar por separado", tabla de 4 columnas (Función · Reemplaza a · Costo aparte* · En HUB), fila total oscura "~ USD 1.936/mes", fila con degradado "Tu precio con Marketing Master HUB — AR$ 90.000/mes ≈ USD 56,25/mes", nota legal |
 | 7 | `Pricing` | `precio` | `#F8FAFC` | Tarjeta con borde degradado: "Plan único", precio AR$ 90.000/mes, equivalencia USD, botón, lista "Tu cuenta incluye" (11 ítems) |
-| 8 | `Process` | `proceso` | Blanco | 4 pasos con números en círculo degradado + botón "Empezar ahora" |
-| 9 | `Extras` | `ademas` | Blanco (separador superior) | 6 tarjetas: Agente de voz con IA, SEO y fichas locales, Seguimiento de llamadas, Firma de documentos, Tracking y analítica, Ecommerce |
-| 10 | `AppBanner` | — | Oscuro | Ícono LeadConnector, título "Tu negocio en el bolsillo…", botones App Store / Google Play, 3 beneficios |
-| 11 | `Faq` | `preguntas` | `#F8FAFC` | Acordeón de 10 preguntas (la 1ª abierta por defecto), animado con `grid-template-rows` |
-| 12 | `FinalCta` | — | `bg-logo-gradient` | Pastilla "Empieza hoy", título, botón blanco "Comprar ahora — AR$ 90.000/mes", botón a FAQ, microcopy |
+| 8 | `Process` | `proceso` | Blanco | 4 pasos con número, ícono (`STEP_ICONS`) y tarjeta `card-lift`. Desktop: línea de progreso 1→4 que se llena al entrar en pantalla. Mobile/tablet: línea vertical. Botón "Empezar ahora" con destello |
+| 9 | `Extras` | `ademas` | Blanco (separador superior) | 6 tarjetas `card-lift` con ícono en contenedor degradado + halo, aparición escalonada: Agente de voz con IA, SEO y fichas locales, Seguimiento de llamadas, Firma de documentos, Tracking y analítica, Ecommerce |
+| 10 | `AppBanner` | — | Oscuro + 2 halos de marca (quietos, ver §12) | Ícono LeadConnector flotando, título "Tu negocio en el bolsillo…", botones App Store / Google Play con destello, 3 beneficios con micro-interacción al pasar el cursor |
+| 11 | `Faq` | `preguntas` | `#F8FAFC` | Acordeón de 10 preguntas en tarjetas separadas (la 1ª abierta). Abierta: borde azul, sombra, acento lateral degradado y `+` que gira a `×`. Apertura con `grid-template-rows` |
+| 12 | `FinalCta` | — | `bg-logo-gradient` + malla (`bg-mesh`) + focos de luz flotando | Pastilla "Empieza hoy", título, botón blanco "Comprar ahora — AR$ 90.000/mes" con halo que late (`cta-pulse`) y destello periódico (`cta-shine`), botón a FAQ, microcopy |
 | 13 | `Footer` | — | `#F8FAFC` | Logo, descripción, navegación, bloque "Pagos", copyright con año dinámico, aviso de marcas |
 | — | `PurchaseModal` | — | — | Ver §10 |
 
@@ -237,6 +237,12 @@ Consecuencia: `text-blue-600`, `bg-emerald-400`, `text-slate-900`, etc. ya son c
 | `glass-card` | Fondo blanco 3% + borde 8% + blur | AppBanner |
 | `glow-card` | Tarjeta con elevación y borde de luz giratorio | Perfiles en "Para quién es" |
 | `scrollbar-none` | Oculta scrollbar | Barra de pestañas |
+| `card-lift` | Tarjeta blanca que se eleva 6px al pasar el cursor, sombra azul y borde degradado (máscara en `::before`) | Pasos del proceso, "Además" |
+| `shine` | Destello que cruza el elemento al pasar el cursor | Botones de compra, badges de tiendas, badge del plan anual |
+| `bg-mesh` | Cuadrícula blanca al 7% que se desvanece hacia los bordes | CTA final |
+| `cta-pulse` / `cta-shine` | Halo que late y destello cada 4 s | Botón del CTA final |
+| `animate-float` | Flotación vertical de 6px | Ícono de LeadConnector, focos del CTA final |
+| `[data-reveal]` | Aparece con fundido + 18px al entrar en pantalla (`useReveal`); retardo con `--reveal-delay` | Secciones inferiores |
 
 ### 8.4 Efecto `glow-card` (perfiles)
 - Estados: `:hover`, `:active`, `:focus-within`, `:focus-visible` → `translateY(-8px) scale(1.03)` + sombra profunda con tinte azul.
@@ -279,16 +285,19 @@ Consecuencia: `text-blue-600`, `bg-emerald-400`, `text-slate-900`, etc. ya son c
 
 ---
 
-## 10. Modal de compra y checkout de Getnet
+## 10. Modal de compra y pago con Mercado Pago
 
 `PurchaseModal.tsx`:
-- Se abre desde cualquier botón "Comprar ahora". Cierra con Esc, clic en el fondo o la X. Bloquea el scroll del body, atrapa el foco (Tab/Shift+Tab) y devuelve el foco al botón que lo abrió.
-- Columna izquierda (solo desktop): logo, plan, AR$ 90.000/mes, ~USD 56,25, 3 beneficios, "Pago procesado por Getnet".
-- Formulario: Nombre y apellido*, Email*, WhatsApp*, Nombre del negocio (opcional), checkbox de aceptación*. Validación en el cliente con mensajes en español.
-- Al enviar:
-  - Si `VITE_CHECKOUT_URL` está definida → redirige a esa URL agregando `name`, `email`, `phone` y `business` como query params.
-  - Si **no** está definida (estado actual) → muestra un aviso amarillo "El checkout de Getnet todavía no está configurado…" y no redirige.
-- **No hay backend**: los datos no se guardan en ningún lado; solo viajan a Getnet en la URL.
+- Se abre desde cualquier botón "Comprar ahora". Cierra con Esc, clic en el fondo o la X. Bloquea el scroll del body, atrapa el foco (Tab/Shift+Tab, ignorando el paso oculto) y devuelve el foco al botón que lo abrió.
+- Columna izquierda (solo desktop): logo, plan, precio **del plan elegido** (AR$ 90.000/mes ~USD 56,25 o AR$ 900.000/año ~USD 562,50), 3 beneficios, "Pago 100% seguro con Mercado Pago".
+- **Flujo de 2 pasos** dentro del mismo modal: el paso 1 se desliza a la izquierda y entra el 2 (transform, 500 ms; sin movimiento con reduced-motion). Indicador "Paso X de 2".
+  - **Paso 1 — datos:** Nombre y apellido*, Email*, WhatsApp*, Nombre del negocio (opcional), checkbox de aceptación*. Validación en el cliente; el foco va al primer error. Botón **"Elegir el plan de pago"**: valida y pasa al paso 2 (no redirige).
+  - **Paso 2 — plan:** botón "← Volver" (conserva los datos) y dos tarjetas-radio desde `PLANS` (`content.ts`): **Pago Mensual** (ARS 90.000 / mes) y **Pago Anual** (ARS 900.000 / año, badge "¡Obtén 2 meses gratis!", "(ARS 180.000 de descuento — 2 meses gratis)", "Equivale a ARS 75.000 por mes."). Preseleccionado: mensual (`DEFAULT_PLAN`), porque coincide con el precio de los botones "Comprar ahora".
+  - Botón **"Continuar al pago seguro"** → `window.location.assign(plan.checkoutUrl)`:
+    - Mensual → `https://mpago.la/1pv2ifB`
+    - Anual → `https://mpago.la/1CsMnyA`
+  - Si el usuario vuelve desde Mercado Pago con "atrás", el evento `pageshow` reactiva el botón.
+- **No hay backend**: los datos del paso 1 **no se guardan ni se envían a ningún lado** (los links `mpago.la` no reciben parámetros). Mercado Pago pide sus propios datos en el checkout. Ver pendientes.
 
 ### 10.1 Página de gracias (post-compra)
 - Archivo: `src/pages/ThankYou.tsx`. Se carga en un chunk aparte (`React.lazy`), así no suma peso a la landing.
@@ -316,13 +325,13 @@ El precio **no está en un solo lugar**. Si cambia, hay que tocar todo esto (bú
 
 | Archivo | Qué contiene |
 |---|---|
-| `src/data/content.ts` | `PRICE_LABEL = 'AR$ 90.000/mes'` (usado en Hero, FinalCta y fila de la tabla) · nota legal `COMPARISON_NOTE` "(AR$90.000)" · paso 2 de `PROCESS_STEPS` · FAQ "¿Cuánto cuesta y qué incluye?" |
+| `src/data/content.ts` | `PRICE_LABEL = 'AR$ 90.000/mes'` (usado en Hero, FinalCta y fila de la tabla) · `PLANS` (precios y links de Mercado Pago del paso 2 del modal) · nota legal `COMPARISON_NOTE` "(AR$90.000)" · paso 2 de `PROCESS_STEPS` · FAQ "¿Cuánto cuesta y qué incluye?" |
 | `src/components/Pricing.tsx` | Cifra grande "AR$ 90.000" y "Equivale a ~USD 56,25 por mes" |
-| `src/components/PurchaseModal.tsx` | Cifra "AR$ 90.000", "~USD 56,25 por mes", línea móvil "AR$ 90.000/mes ·", texto del checkbox |
+| `src/components/PurchaseModal.tsx` | `PLAN_SUMMARY` del panel lateral (precio y USD de cada plan) |
 | `src/components/Comparison.tsx` | "≈ USD 56,25/mes" en la fila de precio |
-| `src/components/Footer.tsx` | "Suscripción mensual de AR$ 90.000…" |
+| `src/components/Footer.tsx` | "Suscripción con débito automático de AR$ 90.000 por mes o AR$ 900.000 por año…" |
 
-Fórmula del equivalente en dólares: `precio ARS / 1.600` (tipo de cambio fijado en la nota legal). Si cambia el tipo de cambio, actualizar también la nota legal.
+Si cambia un link de pago, editar `checkoutUrl` en `PLANS`. Fórmula del equivalente en dólares: `precio ARS / 1.600` (tipo de cambio fijado en la nota legal). Si cambia el tipo de cambio, actualizar también la nota legal.
 
 El título "reemplaza más de USD 1.900" y el total "~ USD 1.936/mes" no dependen del precio de HUB.
 
@@ -334,7 +343,10 @@ El título "reemplaza más de USD 1.900" y el total "~ USD 1.936/mes" no depende
 - Pestañas con patrón ARIA completo; acordeón con `aria-expanded`/`aria-controls`; modal con `role="dialog"` y `aria-modal`.
 - Mockup con `role="img"` y `aria-label="Panel de contactos de Marketing Master HUB"`.
 - Probado en 1440px y 390px (iPhone): **sin scroll horizontal**. El navbar en mobile muestra logo + botón + hamburguesa.
-- Animaciones: aparición de modal y pestañas, acordeón, glow-card. `prefers-reduced-motion` desactiva el scroll suave y el movimiento de glow-card.
+- Animaciones: aparición de modal y pestañas, acordeón, glow-card, deslizamiento entre pasos del modal, apariciones al hacer scroll, línea de pasos, elevación de tarjetas, flotación y halo del CTA.
+- **Rendimiento:** todo lo que se anima en bucle (`glow-spin`, `float-y`, `cta-pulse`, `cta-shine`) mueve solo `transform` y `opacity`, que el navegador resuelve en la GPU. Los halos del AppBanner son **quietos a propósito**: la tarjeta de encima usa `backdrop-filter`, y animar lo que tiene detrás obligaría a recalcular el desenfoque en cada cuadro. Por lo mismo, no hay `backdrop-blur` sobre los focos animados del CTA final.
+- `prefers-reduced-motion`: desactiva el scroll suave, el movimiento de glow-card, las apariciones (todo se ve desde el inicio), la línea de pasos (aparece llena), el deslizamiento del modal, la flotación y el pulso. Se conservan los cambios de color y sombra.
+- Navbar a menos de 360 px: el logo muestra solo el ícono (`<Logo compact />`) para que no haya scroll horizontal a 320 px.
 
 ---
 
@@ -345,7 +357,7 @@ El título "reemplaza más de USD 1.900" y el total "~ USD 1.936/mes" no depende
 - `public/.nojekyll` evita el procesamiento Jekyll.
 - Workflow `.github/workflows/deploy-pages.yml` ("Deploy a GitHub Pages"):
   - Se dispara con push a `main` o a `claude/awesome-cray-uqhl3x`, o a mano (`workflow_dispatch`).
-  - Job `build`: `npm ci` → `npm run build` (con `VITE_CHECKOUT_URL` desde `vars`) → sube `dist/`.
+  - Job `build`: `npm ci` → `npm run build` → sube `dist/`.
   - Job `deploy`: **espera** a que termine cualquier "pages build and deployment" del mismo commit (consulta la API con `gh`, hasta 3 minutos) y luego publica con `actions/deploy-pages@v4`.
 
 ### 13.2 El problema del "sitio en blanco" (importante)
@@ -397,19 +409,38 @@ Cronológico. Cada bloque = un pedido del usuario y el commit resultante en `cla
       - Hay 0 enlaces a la página desde la landing.
       - "Volver al sitio principal" lleva a la landing.
       - Con reduced-motion no corre ninguna animación.
+11. **Mercado Pago, modal de 2 pasos y pulido visual** (rama `claude/stoic-carson-em6ai0`)
+    - Getnet → Mercado Pago en todo el sitio: Hero, Precio, Proceso (paso 2), FAQ, CTA final, Footer y modal. Se eliminó `VITE_CHECKOUT_URL` (`.env.example`, workflow, tipos).
+    - Modal de compra en 2 pasos con elección de plan mensual/anual y links `mpago.la` (§10).
+    - Pulido de Proceso, Además, AppBanner, FAQ y CTA final (§7, §8.3, §12). Nuevo `useReveal`.
+    - FAQ "¿Cuánto cuesta…?" y Footer mencionan también el plan anual.
+    - Página de gracias: `SUPPORT_EMAIL = jared@marketingmaster.top`, `SUPPORT_PHONE = +54 9 381 511-3590`.
+    - Navbar sin scroll horizontal a 320 px.
+    - Verificado con Playwright:
+      - Validación del paso 1.
+      - Paso 2 con foco en el título.
+      - Tab sin pasar por campos ocultos.
+      - "Volver" conserva los datos.
+      - Redirecciones exactas: mensual → `mpago.la/1pv2ifB`, anual → `mpago.la/1CsMnyA`, y anual→mensual → `mpago.la/1pv2ifB`.
+      - Apariciones completas al recorrer la página.
+      - Reduced-motion sin elementos ocultos.
+      - Sin scroll horizontal de 320 a 1440 px.
+      - Sin errores de JS.
+    - No se pudieron abrir los links reales de Mercado Pago desde el entorno de desarrollo (el proxy bloquea `mpago.la`): se verificó la URL de destino interceptando la navegación.
 
 ---
 
 ## 15. Pendientes, riesgos y cosas a validar
 
 ### Bloqueantes para vender
-- [ ] **Configurar el checkout de Getnet**: definir la variable `VITE_CHECKOUT_URL` en GitHub (Settings → Secrets and variables → Actions → Variables) y relanzar el deploy. Confirmar con Getnet si acepta los parámetros `name/email/phone/business` o si hay que ajustarlos.
+- [ ] **Publicar**: el workflow no se dispara con la rama `claude/stoic-carson-em6ai0` (ver §13).
+- [ ] **Probar los dos links de Mercado Pago** con un pago real o de prueba y confirmar que son **suscripciones** (débito automático) y no pagos únicos, porque el sitio lo promete así.
+- [ ] **URL de retorno en Mercado Pago:** configurar en ambos links `https://jaredmarketingmaster.github.io/hub-marketing-master/gracias.html`.
+- [ ] **Los datos del formulario no se guardan.** Hoy no van a ningún lado. Si se necesitan (por ejemplo, para crear el usuario con el mismo email, como dice la página de gracias), hay que conectar un destino: webhook, formulario de HighLevel o similar.
 
 ### Página de gracias
-- [ ] **Completar `SUPPORT_EMAIL` y `SUPPORT_PHONE`** en `src/pages/ThankYou.tsx` (hoy vacíos: el bloque de soporte se ve sin botones).
-- [ ] Publicar: el workflow de deploy no se dispara con la rama `claude/stoic-carson-em6ai0` (ver §13).
-- [ ] Configurar en la pasarela la URL de retorno `https://jaredmarketingmaster.github.io/hub-marketing-master/gracias.html`.
-- [ ] El pedido nombra dLocal / Mercado Pago, pero el sitio dice Getnet. Confirmar cuál es la pasarela real y unificar los textos.
+- [ ] Coherencia de mensajes: el paso 3 del Proceso y la FAQ "¿Cuándo tengo acceso…?" dicen que el acceso llega por email al confirmar el pago, y la página de gracias dice que el onboarding empieza en menos de 24 horas hábiles. Unificar.
+- [ ] La sección Precio y los botones "Comprar ahora" solo muestran el plan mensual; el anual aparece en el modal, en la FAQ y en el Footer. Decidir si se muestra también en Precio.
 
 ### Configuración
 - [ ] **Cambiar Settings → Pages → Source a "GitHub Actions"** (ver §13.2).

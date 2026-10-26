@@ -47,7 +47,7 @@ export function Navbar({ onBuy }: Props) {
         </div>
 
         <div className="order-1 lg:order-none">
-          <Logo />
+          <Logo compact />
         </div>
       </div>
 

@@ -29,7 +29,7 @@ export function Footer() {
           <div className="md:col-span-3">
             <p className="text-xs font-semibold text-slate-900 mb-3">Pagos</p>
             <p className="text-sm text-slate-600 leading-relaxed">
-              Suscripción mensual de AR$ 90.000 procesada de forma segura por Getnet.
+              Suscripción con débito automático de AR$ 90.000 por mes o AR$ 900.000 por año, procesada de forma segura por Mercado Pago.
             </p>
           </div>
         </div>

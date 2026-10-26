@@ -5,8 +5,8 @@ import { Logo } from '../components/Logo'
 // ── Datos de soporte directo (Jared Farfán · Marketing Master Top) ──────────────
 // Editar acá. Si un dato queda vacío, su botón no se muestra.
 // SUPPORT_PHONE en formato internacional, con código de país (ej. '+54 9 11 1234-5678').
-export const SUPPORT_EMAIL = ''
-export const SUPPORT_PHONE = ''
+export const SUPPORT_EMAIL = 'jared@marketingmaster.top'
+export const SUPPORT_PHONE = '+54 9 381 511-3590'
 // Asunto y mensaje con los que se abren el correo y el chat de WhatsApp
 const SUPPORT_EMAIL_SUBJECT = 'Consulta sobre mi compra de Marketing Master HUB'
 const SUPPORT_WHATSAPP_TEXT = 'Hola Jared, acabo de adquirir Marketing Master HUB y tengo una consulta.'
@@ -198,7 +198,7 @@ export default function ThankYou() {
                   {channels.map((c) => {
                     const Icon = c.icon
                     return (
-                      <li key={c.label} className={channels.length % 2 === 1 && c === channels[0] ? 'sm:col-span-2' : ''}>
+                      <li key={c.label} className={`min-w-0 ${channels.length % 2 === 1 && c === channels[0] ? 'sm:col-span-2' : ''}`}>
                         <a
                           href={c.href}
                           {...(c.external ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
@@ -209,7 +209,7 @@ export default function ThankYou() {
                           </span>
                           <span className="min-w-0">
                             <span className="block text-xs text-slate-400">{c.label}</span>
-                            <span className="block text-white font-bold break-words">{c.value}</span>
+                            <span className="block text-white font-bold [overflow-wrap:anywhere]">{c.value}</span>
                           </span>
                         </a>
                       </li>

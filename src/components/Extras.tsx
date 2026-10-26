@@ -1,3 +1,4 @@
+import type { CSSProperties } from 'react'
 import { BarChart3, Mic, PenLine, Phone, Search, ShoppingCart } from 'lucide-react'
 import { EXTRAS } from '../data/content'
 import { SectionHeader } from './SectionHeader'
@@ -23,18 +24,25 @@ export function Extras() {
           subtitleClassName="text-sm md:text-base mb-12"
         />
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
-          {EXTRAS.map((e) => {
+          {EXTRAS.map((e, i) => {
             const Icon = ICONS[e.icon]
             return (
-              <article key={e.title} className="flex gap-4 bg-white border border-slate-200 rounded-2xl p-6 shadow-sm">
-                <span className="w-10 h-10 shrink-0 rounded-lg bg-blue-50 text-blue-600 flex items-center justify-center">
-                  <Icon className="w-5 h-5" />
-                </span>
-                <div>
-                  <h3 className="text-base font-bold text-slate-900 mb-1">{e.title}</h3>
+              // El wrapper aparece al hacer scroll (escalonado); la tarjeta se eleva al pasar el cursor
+              <div key={e.title} data-reveal style={{ '--reveal-delay': `${(i % 3) * 110 + Math.floor(i / 3) * 80}ms` } as CSSProperties}>
+                <article className="card-lift group h-full p-6">
+                  <span className="relative mb-5 inline-flex">
+                    <span
+                      aria-hidden
+                      className="absolute -inset-2 rounded-2xl bg-blue-500/25 blur-lg opacity-60 transition-opacity duration-300 group-hover:opacity-100"
+                    />
+                    <span className="relative w-12 h-12 rounded-xl bg-brand-gradient text-white flex items-center justify-center shadow-lg shadow-blue-600/30 ring-1 ring-inset ring-white/20 transition-transform duration-300 motion-safe:group-hover:scale-110 motion-safe:group-hover:-rotate-3">
+                      <Icon className="w-5 h-5" strokeWidth={1.9} aria-hidden />
+                    </span>
+                  </span>
+                  <h3 className="text-base font-bold text-slate-900 mb-1.5">{e.title}</h3>
                   <p className="text-sm text-slate-600 leading-relaxed">{e.text}</p>
-                </div>
-              </article>
+                </article>
+              </div>
             )
           })}
         </div>

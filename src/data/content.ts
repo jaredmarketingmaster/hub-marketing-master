@@ -3,6 +3,35 @@
 
 export const PRICE_LABEL = 'AR$ 90.000/mes'
 
+// Planes del paso 2 del modal de compra y sus links de pago de Mercado Pago
+export type PlanId = 'monthly' | 'annual'
+export const PLANS: {
+  id: PlanId
+  title: string
+  price: string
+  detail: string
+  note?: string
+  badge?: string
+  checkoutUrl: string
+}[] = [
+  {
+    id: 'monthly',
+    title: 'Pago Mensual',
+    price: 'ARS 90.000 / mes',
+    detail: 'Suscripción mensual recurrente vía Mercado Pago.',
+    checkoutUrl: 'https://mpago.la/1pv2ifB',
+  },
+  {
+    id: 'annual',
+    title: 'Pago Anual (Suscripción Anual)',
+    price: 'ARS 900.000 / año',
+    detail: '(ARS 180.000 de descuento — 2 meses gratis)',
+    note: 'Equivale a ARS 75.000 por mes.',
+    badge: '¡Obtén 2 meses gratis!',
+    checkoutUrl: 'https://mpago.la/1CsMnyA',
+  },
+]
+
 export const NAV_LINKS = [
   { label: 'Cómo funciona', href: '#como-funciona' },
   { label: 'Funciones', href: '#funciones' },
@@ -264,8 +293,8 @@ export const PROCESS_STEPS = [
     text: 'Completas tus datos básicos: nombre, email, WhatsApp y el nombre de tu negocio. Te toma menos de un minuto.',
   },
   {
-    title: 'Pagas de forma segura con Getnet',
-    text: 'Te llevamos al checkout de Getnet para abonar la suscripción mensual de AR$ 90.000. Tus datos de tarjeta nunca pasan por nuestros servidores.',
+    title: 'Pagas de forma segura con Mercado Pago',
+    text: 'Eliges el plan mensual (AR$ 90.000) o el anual (AR$ 900.000, con 2 meses gratis) y pagas en el checkout de Mercado Pago, con débito automático. Tus datos de tarjeta nunca pasan por nuestros servidores.',
   },
   {
     title: 'Recibes tu acceso',
@@ -322,7 +351,7 @@ export const FAQS = [
   },
   {
     q: '¿Cuánto cuesta y qué incluye?',
-    a: 'La suscripción cuesta AR$ 90.000 por mes e incluye todas las funciones de la plataforma. No hay módulos, planes superiores ni funciones bloqueadas.',
+    a: 'La suscripción cuesta AR$ 90.000 por mes, o AR$ 900.000 por año si eliges el pago anual (2 meses gratis), e incluye todas las funciones de la plataforma. No hay módulos, planes superiores ni funciones bloqueadas.',
   },
   {
     q: '¿Hay costos adicionales?',
@@ -330,7 +359,7 @@ export const FAQS = [
   },
   {
     q: '¿Cómo se realiza el pago?',
-    a: 'El pago es mensual y lo procesa Getnet de forma segura. Al hacer clic en "Comprar ahora" completas tus datos y te llevamos directamente al checkout.',
+    a: 'El pago lo procesa Mercado Pago de forma 100% segura, como suscripción con débito automático. Al hacer clic en "Comprar ahora" completas tus datos, eliges el plan mensual o anual y te llevamos directamente al checkout de Mercado Pago.',
   },
   {
     q: '¿Cuándo tengo acceso a la plataforma?',
