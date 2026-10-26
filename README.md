@@ -2,6 +2,8 @@
 
 Landing de alta conversión de **Marketing Master HUB**, construida con React + Vite + TypeScript + Tailwind CSS + Lucide React.
 
+> 📘 La documentación completa del proyecto (contexto, arquitectura, sistema de diseño, historial y pendientes) está en [`DOCUMENTACION.md`](./DOCUMENTACION.md).
+
 ## Desarrollo
 
 ```bash
