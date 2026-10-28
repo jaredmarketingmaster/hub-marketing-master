@@ -1,7 +1,9 @@
-import { NAV_LINKS } from '../data/content'
+import { NAV_LINKS, REGION_COPY } from '../data/content'
+import { useRegion } from '../hooks/useRegion'
 import { Logo } from './Logo'
 
 export function Footer() {
+  const { region } = useRegion()
   const year = new Date().getFullYear()
   return (
     <footer className="bg-[#F8FAFC] border-t border-slate-200 px-4 pt-14 pb-8">
@@ -29,7 +31,7 @@ export function Footer() {
           <div className="md:col-span-3">
             <p className="text-xs font-semibold text-slate-900 mb-3">Pagos</p>
             <p className="text-sm text-slate-600 leading-relaxed">
-              Suscripción con débito automático de AR$ 90.000 por mes o AR$ 900.000 por año, procesada de forma segura por Mercado Pago.
+              {REGION_COPY[region].footerPayments}
             </p>
           </div>
         </div>

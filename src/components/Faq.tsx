@@ -1,10 +1,12 @@
 import { useState, type CSSProperties } from 'react'
 import { Plus } from 'lucide-react'
 import { FAQS } from '../data/content'
+import { useRegion } from '../hooks/useRegion'
 import { SectionHeader } from './SectionHeader'
 
 export function Faq() {
   const [open, setOpen] = useState<number | null>(0)
+  const { region } = useRegion()
 
   return (
     <section id="preguntas" className="bg-[#F8FAFC] py-20 px-4">
@@ -73,7 +75,7 @@ export function Faq() {
                           isOpen ? 'opacity-100' : 'opacity-0'
                         }`}
                       >
-                        {f.a}
+                        {(region === 'world' && f.aWorld) || f.a}
                       </p>
                     </div>
                   </div>

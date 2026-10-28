@@ -1,4 +1,5 @@
-import { COMPARISON, COMPARISON_NOTE, PRICE_LABEL } from '../data/content'
+import { COMPARISON, COMPARISON_NOTE, COMPARISON_NOTE_AR, PRICE_LABEL, REGION_COPY } from '../data/content'
+import { useRegion } from '../hooks/useRegion'
 import hubLogo from '../assets/hub-logo.webp'
 import { SectionHeader } from './SectionHeader'
 import { ToolLogo } from './ToolLogo'
@@ -32,6 +33,7 @@ function ToolPills({ tools, exclusive }: { tools: string[]; exclusive?: boolean 
 }
 
 export function Comparison() {
+  const { region } = useRegion()
   return (
     <section id="cuanto-reemplaza" className="bg-white py-20 px-4">
       <div className="max-w-5xl mx-auto">
@@ -108,13 +110,16 @@ export function Comparison() {
           <div className="bg-brand-gradient text-white py-4 px-4 sm:px-6 flex justify-between items-center gap-4 font-bold text-base sm:text-lg">
             <span>Tu precio con Marketing Master HUB</span>
             <span className="text-right leading-tight">
-              <span className="block whitespace-nowrap font-display">{PRICE_LABEL}</span>
-              <span className="block text-xs font-semibold text-white/80">≈ USD 59/mes</span>
+              <span className="block whitespace-nowrap font-display">{PRICE_LABEL[region]}</span>
+              <span className="block text-xs font-semibold text-white/80">{REGION_COPY[region].comparisonSub}</span>
             </span>
           </div>
         </div>
 
-        <p className="text-[11px] text-slate-400 mt-4 leading-relaxed">{COMPARISON_NOTE}</p>
+        <p className="text-[11px] text-slate-400 mt-4 leading-relaxed">
+          {COMPARISON_NOTE}
+          {region === 'ar' && COMPARISON_NOTE_AR}
+        </p>
       </div>
     </section>
   )

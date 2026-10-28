@@ -1,10 +1,14 @@
-import { ShieldCheck } from 'lucide-react'
-import { PRICING_INCLUDES } from '../data/content'
+import { MessageCircle, ShieldCheck } from 'lucide-react'
+import { PRICING_INCLUDES, REGION_COPY } from '../data/content'
+import { useRegion } from '../hooks/useRegion'
 import { SectionHeader } from './SectionHeader'
 
 type Props = { onBuy: () => void }
 
 export function Pricing({ onBuy }: Props) {
+  const { region } = useRegion()
+  const copy = REGION_COPY[region]
+  const PayIcon = region === 'world' ? MessageCircle : ShieldCheck
   return (
     <section id="precio" className="bg-[#F8FAFC] py-20 px-4">
       <div className="max-w-4xl mx-auto">
@@ -25,10 +29,10 @@ export function Pricing({ onBuy }: Props) {
             <p className="text-sm text-slate-600 mb-6">Todas las funciones, para todo tu negocio.</p>
 
             <div className="flex items-end gap-1.5 mb-1">
-              <span className="font-display text-4xl md:text-5xl font-bold text-slate-900 tracking-tight">AR$ 90.000</span>
+              <span className="font-display text-4xl md:text-5xl font-bold text-slate-900 tracking-tight">{copy.pricingAmount}</span>
               <span className="text-slate-500 font-medium mb-1.5">/mes</span>
             </div>
-            <p className="text-xs text-slate-400 mb-7">Equivale a ~USD 59 por mes. Facturación mensual.</p>
+            <p className="text-xs text-slate-400 mb-7">{copy.pricingNote}</p>
 
             <button
               type="button"
@@ -38,8 +42,8 @@ export function Pricing({ onBuy }: Props) {
               Comprar ahora
             </button>
             <p className="flex items-center justify-center gap-1.5 text-xs text-slate-500 mt-3">
-              <ShieldCheck className="w-3.5 h-3.5 text-[#37B1AB]" />
-              Pago 100% seguro con Mercado Pago, con débito automático
+              <PayIcon className="w-3.5 h-3.5 text-[#37B1AB]" />
+              {copy.pricingSecure}
             </p>
           </div>
 

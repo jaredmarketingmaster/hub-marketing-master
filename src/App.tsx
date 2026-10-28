@@ -1,4 +1,4 @@
-import { useCallback, useState } from 'react'
+import { useCallback, useMemo, useState } from 'react'
 import { Navbar } from './components/Navbar'
 import { Hero } from './components/Hero'
 import { HowItWorks } from './components/HowItWorks'
@@ -14,15 +14,20 @@ import { FinalCta } from './components/FinalCta'
 import { Footer } from './components/Footer'
 import { PurchaseModal } from './components/PurchaseModal'
 import { useReveal } from './hooks/useReveal'
+import { RegionContext } from './hooks/useRegion'
+import { DEFAULT_REGION, type Region } from './data/content'
 
 export default function App() {
   const [buyOpen, setBuyOpen] = useState(false)
   const openBuy = useCallback(() => setBuyOpen(true), [])
   const closeBuy = useCallback(() => setBuyOpen(false), [])
+  // Región de precios del switch del navbar: Argentina por defecto
+  const [region, setRegion] = useState<Region>(DEFAULT_REGION)
+  const regionState = useMemo(() => ({ region, setRegion }), [region])
   useReveal()
 
   return (
-    <>
+    <RegionContext.Provider value={regionState}>
       <Navbar onBuy={openBuy} />
       <main>
         <Hero onBuy={openBuy} />
@@ -39,6 +44,6 @@ export default function App() {
       </main>
       <Footer />
       <PurchaseModal open={buyOpen} onClose={closeBuy} />
-    </>
+    </RegionContext.Provider>
   )
 }

@@ -1,36 +1,107 @@
 // Contenido literal del sitio Marketing Master HUB.
 // Todo el copy vive acá para que marketing pueda editarlo sin tocar componentes.
 
-export const PRICE_LABEL = 'AR$ 90.000/mes'
+// ——— Región de precios (switch del navbar) ———
+// Argentina: pesos y pago con Mercado Pago. Resto del mundo: dólares y la compra
+// sigue por WhatsApp con el equipo (sin Mercado Pago). Por defecto, Argentina.
+export type Region = 'ar' | 'world'
+export const DEFAULT_REGION: Region = 'ar'
 
-// Planes del paso 2 del modal de compra y sus links de pago de Mercado Pago
+// WhatsApp de ventas para el resto del mundo (Jared Farfán · Marketing Master Top)
+export const SALES_WHATSAPP = '5493815113590'
+
+export const PRICE_LABEL: Record<Region, string> = {
+  ar: 'AR$ 90.000/mes',
+  world: 'U$D 59/mes',
+}
+
+// Planes del paso 2 del modal de compra. En Argentina cada plan lleva a su link de
+// Mercado Pago; en el resto del mundo, a un WhatsApp con el plan y su valor ya escritos.
 export type PlanId = 'monthly' | 'annual'
-export const PLANS: {
+export type Plan = {
   id: PlanId
   title: string
   price: string
   detail: string
   note?: string
   badge?: string
-  checkoutUrl: string
-}[] = [
+  checkoutUrl?: string // solo Argentina
+  whatsappValue?: string // solo resto del mundo: valor que se escribe en el mensaje
+}
+export const PLANS: Record<Region, Plan[]> = {
+  ar: [
+    {
+      id: 'monthly',
+      title: 'Pago Mensual',
+      price: 'ARS 90.000 / mes',
+      detail: 'Suscripción mensual recurrente vía Mercado Pago.',
+      checkoutUrl: 'https://mpago.la/1pv2ifB',
+    },
+    {
+      id: 'annual',
+      title: 'Pago Anual (Suscripción Anual)',
+      price: 'ARS 900.000 / año',
+      detail: '(ARS 180.000 de descuento — 2 meses gratis)',
+      note: 'Equivale a ARS 75.000 por mes.',
+      badge: '¡Obtén 2 meses gratis!',
+      checkoutUrl: 'https://mpago.la/1CsMnyA',
+    },
+  ],
+  world: [
+    {
+      id: 'monthly',
+      title: 'Pago Mensual',
+      price: 'U$D 59 / mes',
+      detail: 'Suscripción mensual recurrente.',
+      whatsappValue: 'U$D 59 por mes',
+    },
+    {
+      id: 'annual',
+      title: 'Pago Anual (Suscripción Anual)',
+      price: 'U$D 590 / año',
+      // 12 × 59 = 708 → 708 − 590 = 118 de descuento; 590 / 12 = 49,17 por mes
+      detail: '(U$D 118 de descuento — 2 meses gratis)',
+      note: 'Equivale a ~U$D 49,17 por mes.',
+      badge: '¡Obtén 2 meses gratis!',
+      whatsappValue: 'U$D 590 por año',
+    },
+  ],
+}
+
+// Textos que cambian según la región
+export const REGION_COPY: Record<
+  Region,
   {
-    id: 'monthly',
-    title: 'Pago Mensual',
-    price: 'ARS 90.000 / mes',
-    detail: 'Suscripción mensual recurrente vía Mercado Pago.',
-    checkoutUrl: 'https://mpago.la/1pv2ifB',
+    payment: string // frase de pago en Hero y CTA final
+    pricingAmount: string
+    pricingNote: string
+    pricingSecure: string
+    comparisonSub: string
+    processNote: string
+    footerPayments: string
+  }
+> = {
+  ar: {
+    payment: 'Pago procesado por Mercado Pago.',
+    pricingAmount: 'AR$ 90.000',
+    pricingNote: 'Equivale a ~USD 59 por mes. Facturación mensual.',
+    pricingSecure: 'Pago 100% seguro con Mercado Pago, con débito automático',
+    comparisonSub: '≈ USD 59/mes',
+    processNote: 'El pago se procesa en el checkout seguro de Mercado Pago.',
+    footerPayments:
+      'Suscripción con débito automático de AR$ 90.000 por mes o AR$ 900.000 por año, procesada de forma segura por Mercado Pago.',
   },
-  {
-    id: 'annual',
-    title: 'Pago Anual (Suscripción Anual)',
-    price: 'ARS 900.000 / año',
-    detail: '(ARS 180.000 de descuento — 2 meses gratis)',
-    note: 'Equivale a ARS 75.000 por mes.',
-    badge: '¡Obtén 2 meses gratis!',
-    checkoutUrl: 'https://mpago.la/1CsMnyA',
+  world: {
+    payment: 'Pago coordinado por WhatsApp.',
+    pricingAmount: 'U$D 59',
+    pricingNote: 'O U$D 590 por año con el pago anual (2 meses gratis).',
+    pricingSecure: 'Coordinas el pago por WhatsApp con nuestro equipo',
+    comparisonSub: 'o U$D 590/año',
+    processNote: 'El pago se coordina por WhatsApp con nuestro equipo.',
+    footerPayments:
+      'Suscripción de U$D 59 por mes o U$D 590 por año. Fuera de Argentina, el pago se coordina por WhatsApp con nuestro equipo.',
   },
-]
+}
 
 export const NAV_LINKS = [
   { label: 'Cómo funciona', href: '#como-funciona' },
@@ -269,7 +340,10 @@ export const COMPARISON: ComparisonRow[] = [
 ]
 
 export const COMPARISON_NOTE =
-  '*Valores de referencia publicados por la plataforma oficial de HighLevel para herramientas equivalentes contratadas por separado. Pueden variar según proveedor y plan. Las marcas mencionadas pertenecen a sus respectivos propietarios y se citan solo como referencia de categoría. El precio en dólares es una referencia calculada sobre el valor en pesos argentinos de la suscripción mensual (AR$90.000) a un tipo de cambio de referencia de AR$1.525 por dólar.'
+  '*Valores de referencia publicados por la plataforma oficial de HighLevel para herramientas equivalentes contratadas por separado. Pueden variar según proveedor y plan. Las marcas mencionadas pertenecen a sus respectivos propietarios y se citan solo como referencia de categoría.'
+// Solo Argentina: el precio se muestra en pesos con su equivalente en dólares
+export const COMPARISON_NOTE_AR =
+  ' El precio en dólares es una referencia calculada sobre el valor en pesos argentinos de la suscripción mensual (AR$90.000) a un tipo de cambio de referencia de AR$1.525 por dólar.'
 
 // ——— Secciones redactadas a partir del brief (el original no estaba disponible) ———
 
@@ -287,7 +361,8 @@ export const PRICING_INCLUDES = [
   'App móvil para gestionar todo desde el celular',
 ]
 
-export const PROCESS_STEPS = [
+// titleWorld / textWorld: versión para el resto del mundo, cuando el paso cambia
+export const PROCESS_STEPS: { title: string; text: string; titleWorld?: string; textWorld?: string }[] = [
   {
     title: 'Haces clic en "Comprar ahora"',
     text: 'Completas tus datos básicos: nombre, email, WhatsApp y el nombre de tu negocio. Te toma menos de un minuto.',
@@ -295,6 +370,9 @@ export const PROCESS_STEPS = [
   {
     title: 'Pagas de forma segura con Mercado Pago',
     text: 'Eliges el plan mensual (AR$ 90.000) o el anual (AR$ 900.000, con 2 meses gratis) y pagas en el checkout de Mercado Pago, con débito automático. Tus datos de tarjeta nunca pasan por nuestros servidores.',
+    titleWorld: 'Coordinas tu pago por WhatsApp',
+    textWorld:
+      'Eliges el plan mensual (U$D 59) o el anual (U$D 590, con 2 meses gratis) y se abre una conversación de WhatsApp con nuestro equipo, con tu plan y su valor ya escritos en el mensaje.',
   },
   {
     title: 'Comienza tu onboarding',
@@ -344,7 +422,8 @@ export const APP_LINKS = {
   android: 'https://play.google.com/store/apps/details?id=com.LeadConnector',
 }
 
-export const FAQS = [
+// aWorld: respuesta para el resto del mundo, cuando cambia
+export const FAQS: { q: string; a: string; aWorld?: string }[] = [
   {
     q: '¿Qué es Marketing Master HUB?',
     a: 'Es una plataforma todo-en-uno para captar, nutrir, cerrar, fidelizar y reactivar clientes. Reúne CRM, embudos, sitios web, WhatsApp, calendario, automatizaciones, pagos, email y más en una sola cuenta, con un solo pago mensual.',
@@ -352,6 +431,8 @@ export const FAQS = [
   {
     q: '¿Cuánto cuesta y qué incluye?',
     a: 'La suscripción cuesta AR$ 90.000 por mes, o AR$ 900.000 por año si eliges el pago anual (2 meses gratis), e incluye todas las funciones de la plataforma. No hay módulos, planes superiores ni funciones bloqueadas.',
+    aWorld:
+      'La suscripción cuesta U$D 59 por mes, o U$D 590 por año si eliges el pago anual (2 meses gratis), e incluye todas las funciones de la plataforma. No hay módulos, planes superiores ni funciones bloqueadas.',
   },
   {
     q: '¿Hay costos adicionales?',
@@ -360,6 +441,8 @@ export const FAQS = [
   {
     q: '¿Cómo se realiza el pago?',
     a: 'El pago lo procesa Mercado Pago de forma 100% segura, como suscripción con débito automático. Al hacer clic en "Comprar ahora" completas tus datos, eliges el plan mensual o anual y te llevamos directamente al checkout de Mercado Pago.',
+    aWorld:
+      'Fuera de Argentina, el pago se coordina por WhatsApp con nuestro equipo. Al hacer clic en "Comprar ahora" completas tus datos, eliges el plan mensual o anual y se abre una conversación de WhatsApp con tu plan y su valor ya escritos en el mensaje.',
   },
   {
     q: '¿Cuándo tengo acceso a la plataforma?',

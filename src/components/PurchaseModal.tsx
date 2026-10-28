@@ -1,7 +1,8 @@
 import { useEffect, useRef, useState, type FormEvent, type ReactNode } from 'react'
 import hubLogo from '../assets/hub-logo.webp'
-import { ArrowLeft, ArrowRight, Check, Lock, X } from 'lucide-react'
-import { PLANS, type PlanId } from '../data/content'
+import { ArrowLeft, ArrowRight, Check, Lock, MessageCircle, X } from 'lucide-react'
+import { PLANS, SALES_WHATSAPP, type Plan, type PlanId, type Region } from '../data/content'
+import { useRegion } from '../hooks/useRegion'
 
 type Props = { open: boolean; onClose: () => void }
 
@@ -19,10 +20,47 @@ const SUMMARY = [
   'App móvil incluida',
 ]
 
-// Resumen del panel lateral según el plan elegido (USD a ~AR$ 1.525, como en la nota legal)
-const PLAN_SUMMARY: Record<PlanId, { price: string; period: string; note: string }> = {
-  monthly: { price: 'AR$ 90.000', period: '/mes', note: '~USD 59 por mes' },
-  annual: { price: 'AR$ 900.000', period: '/año', note: '~USD 590 por año · 2 meses gratis' },
+// Resumen del panel lateral según la región y el plan elegido
+// (Argentina: USD a ~AR$ 1.525, como en la nota legal)
+const PLAN_SUMMARY: Record<Region, Record<PlanId, { price: string; period: string; note: string }>> = {
+  ar: {
+    monthly: { price: 'AR$ 90.000', period: '/mes', note: '~USD 59 por mes' },
+    annual: { price: 'AR$ 900.000', period: '/año', note: '~USD 590 por año · 2 meses gratis' },
+  },
+  world: {
+    monthly: { price: 'U$D 59', period: '/mes', note: 'Facturación mensual' },
+    annual: { price: 'U$D 590', period: '/año', note: '2 meses gratis · ~U$D 49,17 por mes' },
+  },
+}
+
+// Textos de pago según la región: Mercado Pago en Argentina, WhatsApp en el resto del mundo
+const PAY_COPY: Record<Region, { aside: string; step1Note: string; submit: string; submitting: string; step2Note: string }> = {
+  ar: {
+    aside: 'Pago 100% seguro con Mercado Pago',
+    step1Note: 'Luego pagas de forma 100% segura con Mercado Pago. No guardamos datos de tarjeta.',
+    submit: 'Continuar al pago seguro',
+    submitting: 'Redirigiendo a Mercado Pago…',
+    step2Note: 'Serás redirigido a Mercado Pago para pagar de forma 100% segura. No guardamos datos de tarjeta.',
+  },
+  world: {
+    aside: 'Pago coordinado por WhatsApp',
+    step1Note: 'Luego eliges tu plan y coordinas el pago por WhatsApp con nuestro equipo.',
+    submit: 'Continuar por WhatsApp',
+    submitting: 'Abriendo WhatsApp…',
+    step2Note: 'Se abrirá WhatsApp con tu plan y su valor ya escritos en el mensaje.',
+  },
+}
+
+// Resto del mundo: WhatsApp de ventas con el plan, su valor y los datos del comprador ya escritos
+function whatsappUrl(plan: Plan, f: Fields) {
+  const lines = [
+    `Hola, soy ${f.name.trim()}. Quiero contratar Marketing Master HUB con el plan ${
+      plan.id === 'annual' ? 'anual' : 'mensual'
+    } (${plan.whatsappValue}).`,
+    `Email: ${f.email.trim()}`,
+  ]
+  if (f.business.trim()) lines.push(`Negocio: ${f.business.trim()}`)
+  return `https://wa.me/${SALES_WHATSAPP}?text=${encodeURIComponent(lines.join('\n'))}`
 }
 
 function validate(f: Fields): Errors {
@@ -39,6 +77,7 @@ export function PurchaseModal({ open, onClose }: Props) {
   const [errors, setErrors] = useState<Errors>({})
   const [step, setStep] = useState<Step>(1)
   const [plan, setPlan] = useState<PlanId>(DEFAULT_PLAN)
+  const { region } = useRegion()
   const [submitting, setSubmitting] = useState(false)
   const dialogRef = useRef<HTMLDivElement>(null)
   const firstInputRef = useRef<HTMLInputElement>(null)
@@ -86,7 +125,7 @@ export function PurchaseModal({ open, onClose }: Props) {
     }
   }, [open])
 
-  // Si el usuario vuelve desde Mercado Pago con el botón "atrás", la página puede
+  // Si el usuario vuelve desde Mercado Pago o WhatsApp con el botón "atrás", la página puede
   // restaurarse desde la caché del navegador: reactivamos el botón de pago.
   useEffect(() => {
     const onShow = (e: PageTransitionEvent) => e.persisted && setSubmitting(false)
@@ -120,13 +159,16 @@ export function PurchaseModal({ open, onClose }: Props) {
     goTo(2)
   }
 
-  // Paso 2 → redirige al link de Mercado Pago del plan elegido
+  // Paso 2 → Argentina: link de Mercado Pago del plan elegido.
+  // Resto del mundo: conversación de WhatsApp con el plan y su valor precargados.
   const onSubmitPlan = (e: FormEvent) => {
     e.preventDefault()
-    const selected = PLANS.find((p) => p.id === plan)
+    const selected = PLANS[region].find((p) => p.id === plan)
     if (!selected) return
+    const url = region === 'world' ? whatsappUrl(selected, fields) : selected.checkoutUrl
+    if (!url) return
     setSubmitting(true)
-    window.location.assign(selected.checkoutUrl)
+    window.location.assign(url)
   }
 
   const inputClass = (err?: string) =>
@@ -141,7 +183,9 @@ export function PurchaseModal({ open, onClose }: Props) {
       active ? 'opacity-100 visible transition-opacity' : 'opacity-0 invisible transition-[opacity,visibility]'
     }`
 
-  const summary = PLAN_SUMMARY[plan]
+  const summary = PLAN_SUMMARY[region][plan]
+  const pay = PAY_COPY[region]
+  const PayIcon = region === 'world' ? MessageCircle : Lock
 
   return (
     <div className="fixed inset-0 z-[100] flex items-end sm:items-center justify-center p-0 sm:p-4">
@@ -185,7 +229,7 @@ export function PurchaseModal({ open, onClose }: Props) {
             ))}
           </ul>
           <p className="flex items-center gap-1.5 text-xs text-slate-400 mt-8">
-            <Lock className="w-3.5 h-3.5" /> Pago 100% seguro con Mercado Pago
+            <PayIcon className="w-3.5 h-3.5" /> {pay.aside}
           </p>
         </aside>
 
@@ -298,8 +342,7 @@ export function PurchaseModal({ open, onClose }: Props) {
                   <ArrowRight className="w-4 h-4" aria-hidden />
                 </button>
                 <p className="flex items-center justify-center gap-1.5 text-[11px] text-slate-400 mt-3 text-center">
-                  <Lock className="w-3 h-3 shrink-0" /> Luego pagas de forma 100% segura con Mercado Pago. No guardamos datos
-                  de tarjeta.
+                  <PayIcon className="w-3 h-3 shrink-0" /> {pay.step1Note}
                 </p>
               </form>
 
@@ -323,7 +366,7 @@ export function PurchaseModal({ open, onClose }: Props) {
                 <fieldset>
                   <legend className="sr-only">Plan de pago</legend>
                   <div className="space-y-5">
-                    {PLANS.map((p) => {
+                    {PLANS[region].map((p) => {
                       const selected = plan === p.id
                       return (
                         <label
@@ -375,12 +418,11 @@ export function PurchaseModal({ open, onClose }: Props) {
                     disabled={submitting}
                     className="shine w-full flex items-center justify-center gap-2 bg-[#1A73E8] hover:bg-[#1560C4] disabled:opacity-60 text-white font-semibold px-6 py-3.5 rounded-lg shadow-lg shadow-blue-600/20 transition-colors"
                   >
-                    {submitting ? 'Redirigiendo a Mercado Pago…' : 'Continuar al pago seguro'}
-                    {!submitting && <Lock className="w-4 h-4" aria-hidden />}
+                    {submitting ? pay.submitting : pay.submit}
+                    {!submitting && <PayIcon className="w-4 h-4" aria-hidden />}
                   </button>
                   <p className="flex items-center justify-center gap-1.5 text-[11px] text-slate-400 mt-3 text-center">
-                    <Lock className="w-3 h-3 shrink-0" /> Serás redirigido a Mercado Pago para pagar de forma 100% segura. No
-                    guardamos datos de tarjeta.
+                    <PayIcon className="w-3 h-3 shrink-0" /> {pay.step2Note}
                   </p>
                 </div>
               </form>

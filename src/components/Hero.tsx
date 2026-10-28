@@ -1,9 +1,11 @@
-import { PRICE_LABEL, REPLACES } from '../data/content'
+import { PRICE_LABEL, REGION_COPY, REPLACES } from '../data/content'
+import { useRegion } from '../hooks/useRegion'
 import { ContactsMockup } from './ContactsMockup'
 
 type Props = { onBuy: () => void }
 
 export function Hero({ onBuy }: Props) {
+  const { region } = useRegion()
   return (
     <>
       <section id="top" className="bg-dark-glow pt-16 md:pt-24 px-4 text-center overflow-hidden">
@@ -31,7 +33,7 @@ export function Hero({ onBuy }: Props) {
               onClick={onBuy}
               className="bg-[#1A73E8] hover:bg-blue-700 text-white font-semibold px-6 py-3.5 rounded-lg shadow-lg shadow-blue-600/25 transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-400 focus-visible:ring-offset-2 focus-visible:ring-offset-[#1A202C]"
             >
-              Comprar ahora — {PRICE_LABEL}
+              Comprar ahora — {PRICE_LABEL[region]}
             </button>
             <a
               href="#como-funciona"
@@ -42,7 +44,7 @@ export function Hero({ onBuy }: Props) {
           </div>
 
           <p className="text-emerald-400 text-xs md:text-sm font-medium mb-12">
-            Acceso desde el primer día. Pago procesado por Mercado Pago. Sin módulos que se cobren aparte.
+            Acceso desde el primer día. {REGION_COPY[region].payment} Sin módulos que se cobren aparte.
           </p>
 
           <figure className="max-w-4xl mx-auto bg-white rounded-t-xl shadow-2xl shadow-black/40 border border-slate-200 overflow-hidden">

@@ -1,19 +1,25 @@
 import type { CSSProperties } from 'react'
-import { KeyRound, MousePointerClick, Rocket, ShieldCheck, type LucideIcon } from 'lucide-react'
-import { PROCESS_STEPS } from '../data/content'
+import { KeyRound, MessageCircle, MousePointerClick, Rocket, ShieldCheck, type LucideIcon } from 'lucide-react'
+import { PROCESS_STEPS, REGION_COPY } from '../data/content'
+import { useRegion } from '../hooks/useRegion'
 import { SectionHeader } from './SectionHeader'
 
 // Un ícono por paso, en el mismo orden que PROCESS_STEPS
 const STEP_ICONS: LucideIcon[] = [
   MousePointerClick, // Clic en "Comprar ahora"
-  ShieldCheck, // Pago seguro con Mercado Pago
+  ShieldCheck, // Pago seguro con Mercado Pago (resto del mundo: WORLD_PAY_ICON)
   KeyRound, // Comienza tu onboarding (usuario de administrador)
   Rocket, // Configuras y empiezas a vender
 ]
 
 type Props = { onBuy: () => void }
 
+// Paso 2 fuera de Argentina: el pago se coordina por WhatsApp
+const WORLD_PAY_ICON = MessageCircle
+
 export function Process({ onBuy }: Props) {
+  const { region } = useRegion()
+  const world = region === 'world'
   return (
     <section id="proceso" className="bg-white py-20 px-4">
       <div className="max-w-5xl mx-auto">
@@ -36,7 +42,9 @@ export function Process({ onBuy }: Props) {
 
           <ol className="grid grid-cols-1 lg:grid-cols-4 gap-6">
             {PROCESS_STEPS.map((step, i) => {
-              const Icon = STEP_ICONS[i]
+              const Icon = world && i === 1 ? WORLD_PAY_ICON : STEP_ICONS[i]
+              const title = (world && step.titleWorld) || step.title
+              const text = (world && step.textWorld) || step.text
               const last = i === PROCESS_STEPS.length - 1
               return (
                 <li
@@ -56,8 +64,8 @@ export function Process({ onBuy }: Props) {
                     <span className="mb-4 inline-flex w-11 h-11 items-center justify-center rounded-xl bg-blue-50 text-blue-600 ring-1 ring-inset ring-blue-100 transition-colors duration-300 group-hover:bg-blue-600 group-hover:text-white group-hover:ring-blue-600">
                       <Icon className="w-5 h-5" strokeWidth={1.75} aria-hidden />
                     </span>
-                    <h3 className="text-base font-bold text-slate-900 mb-2">{step.title}</h3>
-                    <p className="text-sm text-slate-600 leading-relaxed">{step.text}</p>
+                    <h3 className="text-base font-bold text-slate-900 mb-2">{title}</h3>
+                    <p className="text-sm text-slate-600 leading-relaxed">{text}</p>
                   </div>
                 </li>
               )
@@ -73,7 +81,7 @@ export function Process({ onBuy }: Props) {
           >
             Empezar ahora
           </button>
-          <p className="text-sm text-slate-500">El pago se procesa en el checkout seguro de Mercado Pago.</p>
+          <p className="text-sm text-slate-500">{REGION_COPY[region].processNote}</p>
         </div>
       </div>
     </section>

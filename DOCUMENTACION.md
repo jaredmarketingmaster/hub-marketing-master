@@ -124,6 +124,7 @@ hub-marketing-master/
 └── src/
     ├── main.tsx                ← monta <App/> o la página de gracias (carga diferida) según la ruta
     ├── routes.ts               ← detecta la ruta de gracias y agrega noindex
+    ├── hooks/useRegion.ts      ← contexto de la región de precios (Argentina / resto del mundo)
     ├── hooks/
     │   └── useReveal.ts        ← apariciones al hacer scroll ([data-reveal] / [data-reveal-trigger])
     ├── pages/
@@ -139,7 +140,8 @@ hub-marketing-master/
     │   ├── leadconnector-logo.webp     ← ícono oficial app LeadConnector (192×192)
     │   └── tools/*.svg                 ← 14 logos oficiales de herramientas (SVG)
     └── components/             ← una sección por archivo
-        ├── Navbar.tsx          ← barra fija + menú móvil
+        ├── Navbar.tsx          ← barra fija + switch de región + menú móvil
+        ├── RegionSwitch.tsx    ← switch Argentina / Resto del mundo
         ├── Logo.tsx            ← logo HUB + "Marketing Master HUB" (tone dark/light)
         ├── SectionHeader.tsx   ← eyebrow + H2 + subtítulo reutilizable (tone light/dark)
         ├── Hero.tsx            ← portada + mockup + cinta "Un solo login reemplaza a"
@@ -444,6 +446,26 @@ Cronológico. Cada bloque = un pedido del usuario y el commit resultante en `cla
 14. **Equivalente en dólares USD 56,25 → USD 59** (pedido del usuario)
     - Cambió en Precio, en la fila de precio de la tabla y en el resumen del modal. El anual pasa de ~USD 562,50 a ~USD 590.
     - La nota legal pasa a un tipo de cambio de referencia de AR$ 1.525 por dólar: es el que implica USD 59 (90.000 / 59 = 1.525,42; 90.000 / 1.525 = 59,02).
+
+15. **Switch de región Argentina / Resto del mundo** (28/10/2026)
+    - Switch en el navbar sticky, **Argentina por defecto**. Es igual al del repo de AI Studio (`MMHUB---landing`), cuya `DOCUMENTACION.md` §5 lo detalla.
+    - **Resto del mundo:**
+      - Precios en U$D 59/mes y U$D 590/año. Desaparecen las menciones a Mercado Pago y a pesos.
+      - El paso 2 del modal abre `wa.me/5493815113590` con el plan y su valor precargados ("Continuar por WhatsApp").
+    - **Datos por región en `content.ts`:**
+      - `PRICE_LABEL`, `PLANS`, `REGION_COPY` y `COMPARISON_NOTE_AR`.
+      - `titleWorld` / `textWorld` en `PROCESS_STEPS` y `aWorld` en `FAQS`.
+      - En el modal: `PLAN_SUMMARY` y `PAY_COPY`.
+    - **Navbar:**
+      - Logo solo con el ícono por debajo de 640 px y entre 1024 y 1279 px.
+      - "Comprar" por debajo de 380 px.
+      - `max-w-7xl` desde 1280 px.
+      - Links sin corte de línea.
+    - **Verificado en Chromium:**
+      - Los dos estados del switch.
+      - Los mensajes de WhatsApp de los dos planes y Mercado Pago en Argentina.
+      - Sin desborde en 22 anchos de 320 a 1440 px.
+      - Switch operable con teclado.
 
 ---
 

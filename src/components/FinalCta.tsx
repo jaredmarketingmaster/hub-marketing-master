@@ -1,9 +1,11 @@
 import { ArrowRight } from 'lucide-react'
-import { PRICE_LABEL } from '../data/content'
+import { PRICE_LABEL, REGION_COPY } from '../data/content'
+import { useRegion } from '../hooks/useRegion'
 
 type Props = { onBuy: () => void }
 
 export function FinalCta({ onBuy }: Props) {
+  const { region } = useRegion()
   return (
     <section aria-labelledby="cta-title" className="relative isolate overflow-hidden bg-logo-gradient py-24 px-4 text-center">
       {/* Fondo: malla sutil + focos de luz de marca (decorativos, detrás del contenido) */}
@@ -39,7 +41,7 @@ export function FinalCta({ onBuy }: Props) {
               onClick={onBuy}
               className="shine cta-shine relative inline-flex items-center gap-2 bg-white hover:bg-blue-50 text-[#1A73E8] font-bold px-6 py-3.5 rounded-lg shadow-xl shadow-black/25 transition-[background-color,box-shadow] hover:shadow-2xl hover:shadow-blue-950/40 focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-[#2D3748]"
             >
-              Comprar ahora — {PRICE_LABEL}
+              Comprar ahora — {PRICE_LABEL[region]}
               <ArrowRight className="w-4 h-4" aria-hidden />
             </button>
           </span>
@@ -51,7 +53,7 @@ export function FinalCta({ onBuy }: Props) {
           </a>
         </div>
         <p className="text-emerald-300 text-xs md:text-sm font-medium">
-          Acceso desde el primer día. Pago procesado por Mercado Pago. Sin módulos que se cobren aparte.
+          Acceso desde el primer día. {REGION_COPY[region].payment} Sin módulos que se cobren aparte.
         </p>
       </div>
     </section>
